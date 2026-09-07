@@ -15,8 +15,10 @@
 
   const boot = async () => {
     try {
+      await loadClassicScript('copy-rewrite.js');
       await loadClassicScript('script-core.js');
       await loadClassicScript('perspective-redesign.js');
+      window.DOMENEA_COPY?.decoratePerspective();
       await loadClassicScript('cursor-trail.js');
     } catch (error) {
       console.error('[DOMENEA]', error);
