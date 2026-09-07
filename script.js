@@ -13,6 +13,15 @@
     document.head.appendChild(script);
   });
 
-  loadClassicScript('script-core.js').catch(error => console.error('[DOMENEA]', error));
-  loadClassicScript('cursor-trail.js').catch(error => console.error('[DOMENEA]', error));
+  const boot = async () => {
+    try {
+      await loadClassicScript('script-core.js');
+      await loadClassicScript('perspective-redesign.js');
+      await loadClassicScript('cursor-trail.js');
+    } catch (error) {
+      console.error('[DOMENEA]', error);
+    }
+  };
+
+  boot();
 })();
