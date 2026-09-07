@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T09:34:00Z",
+  "title": "Design System: DOMENEA Cinematic Prototype V2",
+  "extensions": {
+    "colorMeta": {
+      "ink": {"role":"primary","displayName":"Ink","canonical":"#171918","tonalRamp":["#171918","#2d302e","#474a47","#626561","#80827e","#a1a29e","#c5c5c1","#eeeeea"]},
+      "mineral-paper": {"role":"neutral","displayName":"Mineral Paper","canonical":"#deddd6","tonalRamp":["#242421","#41413d","#60605a","#808078","#a1a098","#c0bfb7","#deddd6","#f3f2ed"]},
+      "off-white": {"role":"neutral","displayName":"Off White","canonical":"#f4f4ef","tonalRamp":["#262623","#464642","#686864","#8b8b86","#aeaea9","#cecec9","#e5e5e0","#f4f4ef"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName":"Spatial Display","purpose":"Full-screen scene titles only."},
+      "headline": {"displayName":"Editorial Headline","purpose":"Long-form interlude statements."},
+      "body": {"displayName":"Body","purpose":"Project narrative and supporting explanation."},
+      "label": {"displayName":"Peripheral Label","purpose":"Navigation, facts and text actions."}
+    },
+    "shadows": [],
+    "motion": [
+      {"name":"ease-spatial","value":"cubic-bezier(.16, 1, .3, 1)","purpose":"Scene title, menu and media-settle transitions."}
+    ],
+    "breakpoints": [
+      {"name":"compact","value":"600px"},
+      {"name":"stacked","value":"900px"}
+    ]
+  },
+  "components": [
+    {
+      "name":"Text Action",
+      "kind":"button",
+      "refersTo":"text-action",
+      "description":"Primary conversion action expressed as typography rather than a filled button.",
+      "html":"<a class=\"ds-text-action\" href=\"#\">Demander la brochure</a>",
+      "css":".ds-text-action{display:inline-block;color:#171918;padding:.55rem 0;border-bottom:1px solid currentColor;font:500 .9rem/1.45 Manrope,sans-serif;text-decoration:none}.ds-text-action:focus-visible{outline:2px solid currentColor;outline-offset:5px}"
+    },
+    {
+      "name":"Menu Action",
+      "kind":"nav",
+      "description":"Peripheral menu control used in the fixed header.",
+      "html":"<button class=\"ds-menu\">Menu</button>",
+      "css":".ds-menu{min-width:3.25rem;padding:.45rem 0;border:0;border-bottom:1px solid currentColor;background:transparent;color:#171918;font:500 .82rem/1.45 Manrope,sans-serif}.ds-menu:focus-visible{outline:2px solid currentColor;outline-offset:5px}"
+    },
+    {
+      "name":"Scene Rail Item",
+      "kind":"nav",
+      "description":"Hairline scene state indicator for the desktop cinematic sequence.",
+      "html":"<button class=\"ds-rail is-active\" aria-label=\"Current scene\"><span></span></button>",
+      "css":".ds-rail{width:3rem;height:.7rem;padding:0;border:0;background:transparent}.ds-rail span{display:block;width:1.15rem;height:1px;margin-left:auto;background:#171918;opacity:.55}.ds-rail.is-active span{width:3rem;opacity:1}"
+    }
+  ],
+  "narrative": {
+    "northStar":"The Inhabited Landscape",
+    "overview":"DOMENEA is presented as an architectural experience before it behaves like a property catalogue. Full-screen media carries the emotional load while typography behaves like signage inside the landscape. Mineral editorial interludes create pauses for project understanding.",
+    "keyCharacteristics":["Full-bleed architectural and tropical media.","Oversized centered scene typography.","Peripheral navigation and factual microcopy.","Mineral paper interludes between immersive scenes.","Square geometry and hairline separators."],
+    "rules":[
+      {"name":"The Image Owns Color Rule","body":"Saturated color comes from photography and film, not from UI chrome.","section":"colors"},
+      {"name":"The Spatial Type Rule","body":"Display type belongs to a scene, not inside a container.","section":"typography"},
+      {"name":"The No Floating UI Rule","body":"Navigation may overlay media, but it does not become a card, glass panel or elevated surface.","section":"elevation"}
+    ],
+    "dos":["Do let one decisive image carry each immersive scene.","Do keep navigation and factual labels peripheral.","Do use long quiet editorial sections to reset the eye between scenes.","Do treat motion as camera language rather than decoration."],
+    "donts":["Don't reintroduce property cards, glass panels or rounded content containers into this prototype language.","Don't use decorative gradients, glowing accents or gradient text.","Don't copy imagery, copywriting or brand assets from reference websites."]
+  }
+}

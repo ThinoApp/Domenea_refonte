@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#171918" />
+  <meta name="description" content="Prototype DOMENEA - direction architecturale cinématographique pour TAO Passot." />
+  <title>DOMENEA - TAO Passot / Prototype V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!--
+    THESIS: TAO Passot is experienced as a place before it is sold as real estate. Refuse the card-led property landing page.
+    OWN-WORLD: full-bleed tropical imagery, mineral off-black, warm stone, oversized neutral grotesk type, hairline controls.
+    STORY: enter Nosy Be, understand the site, feel the architecture, discover the residences, request the brochure.
+    FIRST VIEWPORT: live architectural media fills the screen; the headline sits centered at spatial scale; brand and action stay peripheral.
+    FORM: cinematic vertical gallery fused with editorial architecture portfolio logic. User-pinned direction from Pinterest + dsgn interior.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+
+  <header class="site-header" data-header data-theme="dark">
+    <a class="brand" href="#intro" aria-label="DOMENEA, retour à l'accueil">
+      <strong>DOMENEA</strong>
+      <span>TAO Passot</span>
+    </a>
+
+    <div class="header-actions">
+      <a class="language" href="#" aria-label="Langue française">FR</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-overlay" data-menu-toggle>
+        <span data-menu-label>Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu-overlay" id="menu-overlay" data-menu-overlay hidden>
+    <nav class="menu-nav" aria-label="Navigation principale">
+      <a href="#lieu">Le lieu</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#residences">Résidences</a>
+      <a href="#contact">Brochure</a>
+    </nav>
+    <div class="menu-meta">
+      <p>Mont Passot<br />Nosy Be, Madagascar</p>
+      <a href="mailto:contact@domenea.com">contact@domenea.com</a>
+    </div>
+  </div>
+
+  <aside class="scene-rail" aria-label="Progression dans le prototype" data-scene-rail>
+    <button type="button" data-jump="intro" aria-label="Aller à l'introduction"><span></span></button>
+    <button type="button" data-jump="lieu" aria-label="Aller au lieu"><span></span></button>
+    <button type="button" data-jump="architecture" aria-label="Aller à l'architecture"><span></span></button>
+    <button type="button" data-jump="residences" aria-label="Aller aux résidences"><span></span></button>
+    <button type="button" data-jump="contact" aria-label="Aller à la brochure"><span></span></button>
+  </aside>
+
+  <main>
+    <section class="scene hero is-active" id="intro" data-scene data-header-theme="dark">
+      <div class="scene-media scene-media-video" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1759372945658-1e9f56e751bd?auto=format&fit=crop&fm=jpg&q=78&w=2200">
+          <source src="https://dev.domenea.com/assets/vide_hero.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="scene-shade" aria-hidden="true"></div>
+
+      <div class="hero-title-wrap scene-title-wrap" aria-hidden="true">
+        <p class="scene-title scene-title-two-lines">
+          <span>Habiter le paysage</span>
+          <span>vivre l'horizon</span>
+        </p>
+      </div>
+      <h1 class="sr-only">TAO Passot, habiter le paysage et vivre l'horizon</h1>
+
+      <div class="scene-corner scene-corner-left">
+        <p>Mont Passot<br />Nosy Be</p>
+      </div>
+      <a class="scene-action" href="#lieu">Découvrir TAO Passot</a>
+    </section>
+
+    <section class="scene" id="lieu" data-scene data-header-theme="dark">
+      <div class="scene-media parallax-media" aria-hidden="true">
+        <img src="https://architizer-prod.imgix.net/media/mediadata/uploads/1767700573144EXT3.jpg?auto=format%2Ccompress&cs=strip&q=78&w=2200" alt="" />
+      </div>
+      <div class="scene-shade scene-shade-soft" aria-hidden="true"></div>
+
+      <div class="scene-title-wrap">
+        <h2 class="scene-title"><span>Le lieu d'abord</span></h2>
+      </div>
+      <div class="scene-corner scene-corner-left">
+        <p>Relief tropical<br />Vue mer et coucher de soleil</p>
+      </div>
+      <div class="scene-corner scene-corner-right">
+        <p>20 000 m²<br />Mont Passot</p>
+      </div>
+    </section>
+
+    <section class="interlude" data-header-theme="light">
+      <div class="interlude-top">
+        <h2>Un projet immobilier ne devrait pas commencer par une liste de prestations.</h2>
+      </div>
+      <div class="interlude-bottom">
+        <p>TAO Passot se raconte par la pente, la lumière, la végétation et les cadrages. La villa arrive ensuite, comme une continuité du site.</p>
+        <dl class="project-facts" aria-label="Informations sur TAO Passot">
+          <div><dt>Situation</dt><dd>Nosy Be, Madagascar</dd></div>
+          <div><dt>Programme</dt><dd>Résidences privées</dd></div>
+          <div><dt>Typologies</dt><dd>2, 3 et 4 chambres</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="scene" id="architecture" data-scene data-header-theme="dark">
+      <div class="scene-media parallax-media" aria-hidden="true">
+        <img src="https://static.immobilier-consult.com/madaimmo-upload/2c8f87de-f1aa-4b9f-a8f3-74508f6e893e.jpg" alt="" />
+      </div>
+      <div class="scene-shade" aria-hidden="true"></div>
+
+      <div class="scene-title-wrap">
+        <h2 class="scene-title"><span>Architecture ouverte</span></h2>
+      </div>
+      <div class="scene-corner scene-corner-left">
+        <p>Dedans et dehors<br />dans un même geste</p>
+      </div>
+      <div class="scene-corner scene-corner-right">
+        <p>Bioclimatique<br />Lumière naturelle</p>
+      </div>
+    </section>
+
+    <section class="gallery-essay" data-header-theme="light">
+      <header class="gallery-copy">
+        <h2>Des fragments de vie plutôt que des fiches produit.</h2>
+        <p>Une arrivée. Une terrasse. Un reflet dans l'eau. Le site montre les résidences comme une succession de moments, puis laisse les détails commerciaux intervenir au bon moment.</p>
+      </header>
+
+      <div class="gallery-grid">
+        <figure class="gallery-primary reveal-media">
+          <img src="https://media.vrbo.com/lodging/113000000/112960000/112953200/112953194/3d5e5e26.jpg?impolicy=resizecrop&ra=fill&rh=950&rw=1500" alt="Villa contemporaine ouverte sur sa piscine et le paysage" loading="lazy" decoding="async" />
+        </figure>
+        <figure class="gallery-secondary reveal-media">
+          <img src="https://madagascar-hotels-online.com/wp-content/uploads/2019/09/piscine-villa-privee-home-the-residence-nosy-be.jpeg" alt="Piscine tropicale entourée de végétation" loading="lazy" decoding="async" />
+        </figure>
+        <p class="gallery-quote">L'architecture encadre le paysage sans chercher à prendre sa place.</p>
+      </div>
+    </section>
+
+    <section class="scene residence-scene" id="residences" data-scene data-header-theme="dark">
+      <div class="scene-media parallax-media" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1768737676967-5d340e2f86cc?auto=format&fit=crop&fm=jpg&q=78&w=2200" alt="" />
+      </div>
+      <div class="scene-shade scene-shade-soft" aria-hidden="true"></div>
+
+      <div class="scene-title-wrap">
+        <h2 class="scene-title"><span>Les résidences</span></h2>
+      </div>
+      <div class="scene-corner scene-corner-left">
+        <p>Intimité<br />Harmony<br />Prestige</p>
+      </div>
+      <a class="scene-action" href="#contact">Recevoir la brochure</a>
+    </section>
+
+    <section class="contact" id="contact" data-scene data-header-theme="light">
+      <div class="contact-copy">
+        <h2>Voir le projet dans son ensemble.</h2>
+        <p>Plans, typologies et présentation de TAO Passot réunis dans la brochure commerciale.</p>
+        <a class="contact-link" href="mailto:contact@domenea.com?subject=Brochure%20TAO%20Passot">Demander la brochure</a>
+      </div>
+      <div class="contact-image reveal-media">
+        <img src="https://images.unsplash.com/photo-1750271329214-a7dbce880e85?auto=format&fit=crop&fm=jpg&q=76&w=1800" alt="Villa tropicale au coucher du soleil" loading="lazy" decoding="async" />
+      </div>
+      <footer class="contact-footer">
+        <strong>DOMENEA</strong>
+        <p>TAO Passot, Nosy Be</p>
+        <a href="mailto:contact@domenea.com">contact@domenea.com</a>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
