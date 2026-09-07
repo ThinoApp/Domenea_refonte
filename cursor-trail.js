@@ -19,7 +19,6 @@
     zIndex: '135',
     opacity: '0',
     transition: 'opacity 180ms ease-out',
-    mixBlendMode: 'difference',
     contain: 'strict'
   });
   document.body.appendChild(canvas);
@@ -30,12 +29,38 @@
     return;
   }
 
-  // A warm mineral source color combined with CSS difference blending keeps
-  // the strands legible over both dark cinematic media and pale paper surfaces.
+  // Each strand is rendered twice: a very thin dark sheath plus a warm light
+  // core. On pale surfaces the sheath carries contrast; on dark photography
+  // the core does. This avoids relying on blend modes and stays legible on
+  // mixed imagery without sampling the page underneath the canvas.
   const strands = [
-    { spring: 0.235, friction: 0.705, width: 1.15, alpha: 0.52, offset: -2.3, warmth: '231, 209, 173' },
-    { spring: 0.205, friction: 0.735, width: 0.9, alpha: 0.39, offset: 0, warmth: '244, 231, 205' },
-    { spring: 0.178, friction: 0.765, width: 0.7, alpha: 0.3, offset: 2.6, warmth: '205, 179, 139' }
+    {
+      spring: 0.235,
+      friction: 0.705,
+      width: 1.12,
+      alpha: 0.58,
+      offset: -2.3,
+      core: '244, 228, 194',
+      sheath: '18, 31, 23'
+    },
+    {
+      spring: 0.205,
+      friction: 0.735,
+      width: 0.88,
+      alpha: 0.48,
+      offset: 0,
+      core: '232, 204, 164',
+      sheath: '20, 34, 25'
+    },
+    {
+      spring: 0.178,
+      friction: 0.765,
+      width: 0.68,
+      alpha: 0.38,
+      offset: 2.6,
+      core: '248, 237, 214',
+      sheath: '16, 28, 21'
+    }
   ];
 
   const pointCount = 18;
@@ -119,6 +144,20 @@
     wake();
   };
 
+  const strokeCurve = (p0, p1, p2, color, alpha, lineWidth) => {
+    context.beginPath();
+    context.moveTo(p0.x, p0.y);
+    context.quadraticCurveTo(
+      p1.x,
+      p1.y,
+      (p1.x + p2.x) * 0.5,
+      (p1.y + p2.y) * 0.5
+    );
+    context.strokeStyle = `rgba(${color}, ${alpha})`;
+    context.lineWidth = lineWidth;
+    context.stroke();
+  };
+
   const drawStrand = (rope, speedFactor) => {
     const { points, config } = rope;
     if (points.length < 3) return;
@@ -128,22 +167,34 @@
       const p1 = points[i + 1];
       const p2 = points[Math.min(points.length - 1, i + 2)];
       const progress = 1 - i / (points.length - 1);
-      const tailFade = Math.pow(progress, 1.42);
-      const motionFade = 0.42 + speedFactor * 0.58;
+      const tailFade = Math.pow(progress, 1.36);
+      const motionFade = 0.5 + speedFactor * 0.5;
       const alpha = config.alpha * tailFade * motionFade;
-      if (alpha < 0.008) continue;
+      if (alpha < 0.009) continue;
 
-      context.beginPath();
-      context.moveTo(p0.x, p0.y);
-      context.quadraticCurveTo(
-        p1.x,
-        p1.y,
-        (p1.x + p2.x) * 0.5,
-        (p1.y + p2.y) * 0.5
+      const coreWidth = config.width * (0.78 + tailFade * 0.34);
+      const sheathWidth = coreWidth + 1.2;
+
+      // Dark contour: deliberately narrow, not a glow. It disappears into dark
+      // media but gives the strand definition on paper and bright imagery.
+      strokeCurve(
+        p0,
+        p1,
+        p2,
+        config.sheath,
+        Math.min(0.78, alpha * 0.92),
+        sheathWidth
       );
-      context.strokeStyle = `rgba(${config.warmth}, ${alpha})`;
-      context.lineWidth = config.width * (0.72 + tailFade * 0.38);
-      context.stroke();
+
+      // Warm mineral centre: the visible edge on forest, video and night shots.
+      strokeCurve(
+        p0,
+        p1,
+        p2,
+        config.core,
+        Math.min(0.96, alpha * 1.16),
+        coreWidth
+      );
     }
   };
 
