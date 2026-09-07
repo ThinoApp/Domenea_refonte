@@ -1,35 +1,91 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#171918" />
-  <meta name="description" content="Prototype DOMENEA - direction architecturale cinématographique pour TAO Passot." />
-  <title>DOMENEA - TAO Passot / Prototype V2</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="TAO Passot par DOMENEA. Résidences privées à Mont Passot, Nosy Be, Madagascar." />
+  <meta property="og:title" content="DOMENEA - TAO Passot" />
+  <meta property="og:description" content="Habiter le paysage. Vivre l'horizon à Nosy Be." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/hero-fallback-ocean.png" />
+  <link rel="preconnect" href="https://raw.githubusercontent.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/hero-fallback-ocean.png" as="image" />
+  <title>DOMENEA - TAO Passot, Nosy Be</title>
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script defer src="script.js"></script>
 </head>
-<body>
+<body class="is-entry-locked">
   <!--
-    THESIS: TAO Passot is experienced as a place before it is sold as real estate. Refuse the card-led property landing page.
-    OWN-WORLD: full-bleed tropical imagery, mineral off-black, warm stone, oversized neutral grotesk type, hairline controls.
-    STORY: enter Nosy Be, understand the site, feel the architecture, discover the residences, request the brochure.
-    FIRST VIEWPORT: live architectural media fills the screen; the headline sits centered at spatial scale; brand and action stay peripheral.
-    FORM: cinematic vertical gallery fused with editorial architecture portfolio logic. User-pinned direction from Pinterest + dsgn interior.
-    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    THESIS: TAO Passot is experienced as landscape first and real estate second. The page refuses a card-led property landing page.
+    OWN-WORLD: full-bleed TAO imagery, mineral black, stone paper, architectural typography, hard-edged image fields and one deep forest accent.
+    STORY: ceremonial entry, place, architecture, residences, programs, villa experiences, lifestyle, investment, brochure.
+    FIRST VIEWPORT: the actual TAO hero waits behind an architectural entry field and is uncovered through a growing arch.
+    FORM: cinematic architectural portfolio with an arch entry and fixed-coordinate vertical section reveals.
   -->
 
+  <svg class="entry-clip-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <clipPath id="entryInverseClip" clipPathUnits="objectBoundingBox">
+        <path id="entryClipPath" clip-rule="evenodd" fill-rule="evenodd" d="M 0 0 H 1 V 1 H 0 Z M .49 1 L .49 .98 C .49 .97 .495 .96 .5 .96 C .505 .96 .51 .97 .51 .98 L .51 1 Z"></path>
+      </clipPath>
+    </defs>
+  </svg>
+
+  <div class="entry" data-entry aria-hidden="true">
+    <div class="entry-surface" data-entry-surface>
+      <div class="entry-watermark" aria-hidden="true"><span>NOSY</span><span>BE</span></div>
+      <div class="entry-frame" aria-hidden="true"></div>
+      <div class="entry-orbit entry-orbit-a" aria-hidden="true"></div>
+      <div class="entry-orbit entry-orbit-b" aria-hidden="true"></div>
+
+      <div class="entry-side entry-side-left entry-reveal" style="--delay:.32s">
+        <span class="entry-rule"></span><span>MONT PASSOT</span>
+      </div>
+      <div class="entry-side entry-side-right entry-reveal" style="--delay:.38s">
+        <span>MADAGASCAR</span><span class="entry-rule"></span>
+      </div>
+
+      <div class="entry-lockup">
+        <div class="entry-mark entry-scale" style="--delay:.12s" aria-hidden="true">
+          <span></span><span></span>
+        </div>
+        <div class="entry-word entry-word-main" aria-label="DOMENEA">
+          <span style="--i:0">D</span><span style="--i:1">O</span><span style="--i:2">M</span><span style="--i:3">E</span><span style="--i:4">N</span><span style="--i:5">E</span><span style="--i:6">A</span>
+        </div>
+        <div class="entry-word entry-word-sub" aria-label="TAO PASSOT">
+          <span style="--i:0">T</span><span style="--i:1">A</span><span style="--i:2">O</span><span class="entry-space" style="--i:3">&nbsp;</span><span style="--i:4">P</span><span style="--i:5">A</span><span style="--i:6">S</span><span style="--i:7">S</span><span style="--i:8">O</span><span style="--i:9">T</span>
+        </div>
+        <div class="entry-line" aria-hidden="true"></div>
+        <p class="entry-subtitle entry-reveal" style="--delay:.64s">RÉSIDENCES PRIVÉES À NOSY BE</p>
+      </div>
+
+      <div class="entry-bottom entry-reveal" style="--delay:.76s">
+        <span>20 000 M²</span><span>VILLAS 2 À 4 CHAMBRES</span><span>OCÉAN INDIEN</span>
+      </div>
+    </div>
+    <button class="entry-skip" type="button" data-entry-skip>Passer</button>
+  </div>
+
   <header class="site-header" data-header data-theme="dark">
-    <a class="brand" href="#intro" aria-label="DOMENEA, retour à l'accueil">
-      <strong>DOMENEA</strong>
-      <span>TAO Passot</span>
-    </a>
+    <button class="brand brand-button" type="button" data-stack-jump="0" aria-label="Retour au début">
+      <strong>DOMENEA</strong><span>TAO Passot</span>
+    </button>
+
+    <nav class="desktop-nav" aria-label="Navigation principale">
+      <a href="#programs" data-fr="Programmes" data-en="Programs">Programmes</a>
+      <a href="#concept" data-fr="Concept" data-en="Concept">Concept</a>
+      <a href="#contact" data-fr="Contact" data-en="Contact">Contact</a>
+    </nav>
 
     <div class="header-actions">
-      <a class="language" href="#" aria-label="Langue française">FR</a>
+      <button class="language" type="button" data-language aria-label="Switch to English">EN</button>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-overlay" data-menu-toggle>
         <span data-menu-label>Menu</span>
       </button>
@@ -37,144 +93,262 @@
   </header>
 
   <div class="menu-overlay" id="menu-overlay" data-menu-overlay hidden>
-    <nav class="menu-nav" aria-label="Navigation principale">
-      <a href="#lieu">Le lieu</a>
-      <a href="#architecture">Architecture</a>
-      <a href="#residences">Résidences</a>
-      <a href="#contact">Brochure</a>
+    <nav class="menu-nav" aria-label="Navigation complète">
+      <button type="button" data-stack-jump="1" data-fr="Le lieu" data-en="The place">Le lieu</button>
+      <button type="button" data-stack-jump="2" data-fr="Architecture" data-en="Architecture">Architecture</button>
+      <button type="button" data-stack-jump="3" data-fr="Résidences" data-en="Residences">Résidences</button>
+      <a href="#programs" data-fr="Programmes" data-en="Programs">Programmes</a>
+      <a href="#villas" data-fr="Villas" data-en="Villas">Villas</a>
+      <a href="#concept" data-fr="Concept" data-en="Concept">Concept</a>
+      <a href="#investment" data-fr="Investissement" data-en="Investment">Investissement</a>
+      <a href="#contact" data-fr="Brochure" data-en="Brochure">Brochure</a>
     </nav>
     <div class="menu-meta">
       <p>Mont Passot<br />Nosy Be, Madagascar</p>
-      <a href="mailto:contact@domenea.com">contact@domenea.com</a>
+      <div class="menu-meta-links">
+        <a href="tel:+33771140291">+33 7 71 14 02 91</a>
+        <a href="mailto:info@domenea.com">info@domenea.com</a>
+      </div>
     </div>
   </div>
 
-  <aside class="scene-rail" aria-label="Progression dans le prototype" data-scene-rail>
-    <button type="button" data-jump="intro" aria-label="Aller à l'introduction"><span></span></button>
-    <button type="button" data-jump="lieu" aria-label="Aller au lieu"><span></span></button>
-    <button type="button" data-jump="architecture" aria-label="Aller à l'architecture"><span></span></button>
-    <button type="button" data-jump="residences" aria-label="Aller aux résidences"><span></span></button>
-    <button type="button" data-jump="contact" aria-label="Aller à la brochure"><span></span></button>
-  </aside>
-
   <main>
-    <section class="scene hero is-active" id="intro" data-scene data-header-theme="dark">
-      <div class="scene-media scene-media-video" aria-hidden="true">
-        <video autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1759372945658-1e9f56e751bd?auto=format&fit=crop&fm=jpg&q=78&w=2200">
-          <source src="https://dev.domenea.com/assets/vide_hero.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="scene-shade" aria-hidden="true"></div>
+    <section class="stack-sequence" data-stack aria-label="Présentation de TAO Passot">
+      <div class="stack-stage" data-stack-stage>
+        <article class="stack-scene stack-scene-hero" id="intro" data-stack-scene style="--scene-index:0">
+          <div class="stack-media">
+            <video autoplay muted loop playsinline preload="metadata" poster="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/hero-fallback-ocean.png">
+              <source src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/vide_hero.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="stack-shade stack-shade-hero" aria-hidden="true"></div>
+          <div class="stack-copy stack-copy-center">
+            <h1>
+              <span data-fr="Habiter le paysage." data-en="Live in the landscape.">Habiter le paysage.</span>
+              <span data-fr="Vivre l'horizon." data-en="Live with the horizon.">Vivre l'horizon.</span>
+            </h1>
+            <p data-fr="Des résidences contemporaines dessinées pour la lumière, le relief et l'horizon de Nosy Be." data-en="Contemporary residences shaped by the light, terrain and horizon of Nosy Be.">Des résidences contemporaines dessinées pour la lumière, le relief et l'horizon de Nosy Be.</p>
+            <div class="hero-actions">
+              <a href="#contact" class="text-link" data-fr="Recevoir la brochure" data-en="Request the brochure">Recevoir la brochure</a>
+              <a href="mailto:info@domenea.com?subject=Visite%20privée%20TAO%20Passot" class="text-link text-link-muted" data-fr="Organiser une visite" data-en="Arrange a private visit">Organiser une visite</a>
+            </div>
+          </div>
+          <div class="scene-meta scene-meta-left"><span>Mont Passot</span><span>Nosy Be</span></div>
+        </article>
 
-      <div class="hero-title-wrap scene-title-wrap" aria-hidden="true">
-        <p class="scene-title scene-title-two-lines">
-          <span>Habiter le paysage</span>
-          <span>vivre l'horizon</span>
-        </p>
-      </div>
-      <h1 class="sr-only">TAO Passot, habiter le paysage et vivre l'horizon</h1>
+        <article class="stack-scene" id="lieu" data-stack-scene style="--scene-index:1">
+          <div class="stack-media"><img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2012.jpg" alt="Vue aérienne de la végétation et du paysage autour de TAO Passot" /></div>
+          <div class="stack-shade"></div>
+          <div class="stack-copy stack-copy-center">
+            <h2><span data-fr="Le lieu d'abord." data-en="The place comes first.">Le lieu d'abord.</span></h2>
+            <p data-fr="Entre Mont Passot, lacs, végétation tropicale et océan Indien, le site guide chaque décision architecturale." data-en="Between Mont Passot, lakes, tropical vegetation and the Indian Ocean, the site guides every architectural decision.">Entre Mont Passot, lacs, végétation tropicale et océan Indien, le site guide chaque décision architecturale.</p>
+          </div>
+          <div class="scene-meta scene-meta-left"><span data-fr="5 min de la plage" data-en="5 min to the beach">5 min de la plage</span><span data-fr="25 min de l'aéroport" data-en="25 min to the airport">25 min de l'aéroport</span></div>
+          <div class="scene-meta scene-meta-right"><span>20 000 m²</span><span>Mont Passot</span></div>
+        </article>
 
-      <div class="scene-corner scene-corner-left">
-        <p>Mont Passot<br />Nosy Be</p>
-      </div>
-      <a class="scene-action" href="#lieu">Découvrir TAO Passot</a>
-    </section>
+        <article class="stack-scene" id="architecture" data-stack-scene style="--scene-index:2">
+          <div class="stack-media"><img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-2.jpg" alt="Architecture contemporaine de TAO Passot ouverte sur la piscine et le paysage" /></div>
+          <div class="stack-shade"></div>
+          <div class="stack-copy stack-copy-center">
+            <h2><span data-fr="Architecture ouverte." data-en="Open architecture.">Architecture ouverte.</span></h2>
+            <p data-fr="Des lignes sobres, une conception bioclimatique et des espaces qui prolongent naturellement le dehors." data-en="Quiet lines, bioclimatic design and spaces that naturally extend into the outdoors.">Des lignes sobres, une conception bioclimatique et des espaces qui prolongent naturellement le dehors.</p>
+          </div>
+          <div class="scene-meta scene-meta-left"><span data-fr="Dedans et dehors continus" data-en="Inside and outside as one">Dedans et dehors continus</span><span data-fr="Lumière naturelle" data-en="Natural light">Lumière naturelle</span></div>
+        </article>
 
-    <section class="scene" id="lieu" data-scene data-header-theme="dark">
-      <div class="scene-media parallax-media" aria-hidden="true">
-        <img src="https://architizer-prod.imgix.net/media/mediadata/uploads/1767700573144EXT3.jpg?auto=format%2Ccompress&cs=strip&q=78&w=2200" alt="" />
-      </div>
-      <div class="scene-shade scene-shade-soft" aria-hidden="true"></div>
-
-      <div class="scene-title-wrap">
-        <h2 class="scene-title"><span>Le lieu d'abord</span></h2>
-      </div>
-      <div class="scene-corner scene-corner-left">
-        <p>Relief tropical<br />Vue mer et coucher de soleil</p>
-      </div>
-      <div class="scene-corner scene-corner-right">
-        <p>20 000 m²<br />Mont Passot</p>
-      </div>
-    </section>
-
-    <section class="interlude" data-header-theme="light">
-      <div class="interlude-top">
-        <h2>Un projet immobilier ne devrait pas commencer par une liste de prestations.</h2>
-      </div>
-      <div class="interlude-bottom">
-        <p>TAO Passot se raconte par la pente, la lumière, la végétation et les cadrages. La villa arrive ensuite, comme une continuité du site.</p>
-        <dl class="project-facts" aria-label="Informations sur TAO Passot">
-          <div><dt>Situation</dt><dd>Nosy Be, Madagascar</dd></div>
-          <div><dt>Programme</dt><dd>Résidences privées</dd></div>
-          <div><dt>Typologies</dt><dd>2, 3 et 4 chambres</dd></div>
-        </dl>
-      </div>
-    </section>
-
-    <section class="scene" id="architecture" data-scene data-header-theme="dark">
-      <div class="scene-media parallax-media" aria-hidden="true">
-        <img src="https://static.immobilier-consult.com/madaimmo-upload/2c8f87de-f1aa-4b9f-a8f3-74508f6e893e.jpg" alt="" />
-      </div>
-      <div class="scene-shade" aria-hidden="true"></div>
-
-      <div class="scene-title-wrap">
-        <h2 class="scene-title"><span>Architecture ouverte</span></h2>
-      </div>
-      <div class="scene-corner scene-corner-left">
-        <p>Dedans et dehors<br />dans un même geste</p>
-      </div>
-      <div class="scene-corner scene-corner-right">
-        <p>Bioclimatique<br />Lumière naturelle</p>
+        <article class="stack-scene" id="residence" data-stack-scene style="--scene-index:3">
+          <div class="stack-media"><img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-1.jpeg" alt="Vue de la résidence TAO Passot et de sa piscine" /></div>
+          <div class="stack-shade stack-shade-soft"></div>
+          <div class="stack-copy stack-copy-center">
+            <h2><span data-fr="TAO Passot Résidence." data-en="TAO Passot Residence.">TAO Passot Résidence.</span></h2>
+            <p data-fr="Une résidence privée sécurisée de 20 000 m², pensée autour des espaces verts, du calme et de la vue." data-en="A secure 20,000 m² private residence shaped around green space, calm and the view.">Une résidence privée sécurisée de 20 000 m², pensée autour des espaces verts, du calme et de la vue.</p>
+          </div>
+          <div class="scene-meta scene-meta-left"><span data-fr="Sécurité 24h/24" data-en="24/7 security">Sécurité 24h/24</span><span data-fr="Piscines privatives" data-en="Private pools">Piscines privatives</span></div>
+          <a class="scene-link" href="#programs" data-fr="Découvrir les programmes" data-en="Discover the programs">Découvrir les programmes</a>
+        </article>
       </div>
     </section>
 
-    <section class="gallery-essay" data-header-theme="light">
-      <header class="gallery-copy">
-        <h2>Des fragments de vie plutôt que des fiches produit.</h2>
-        <p>Une arrivée. Une terrasse. Un reflet dans l'eau. Le site montre les résidences comme une succession de moments, puis laisse les détails commerciaux intervenir au bon moment.</p>
+    <section class="statement surface-paper" data-header-theme="light">
+      <div class="statement-inner reveal-block">
+        <h2 data-fr="Avant la villa, il y a le lieu." data-en="Before the villa, there is the place.">Avant la villa, il y a le lieu.</h2>
+        <p data-fr="TAO Passot se raconte par la pente, la lumière, la végétation et les cadrages. La résidence arrive ensuite comme une continuité du site." data-en="TAO Passot is told through terrain, light, vegetation and framed views. The residence follows as a continuation of the site.">TAO Passot se raconte par la pente, la lumière, la végétation et les cadrages. La résidence arrive ensuite comme une continuité du site.</p>
+      </div>
+      <dl class="place-facts reveal-block">
+        <div><dt data-fr="Plage" data-en="Beach">Plage</dt><dd>5 min</dd></div>
+        <div><dt data-fr="Mont Passot et lacs" data-en="Mont Passot and lakes">Mont Passot et lacs</dt><dd>3 min</dd></div>
+        <div><dt data-fr="Commerces" data-en="Shopping">Commerces</dt><dd>15 min</dd></div>
+        <div><dt data-fr="Aéroport" data-en="Airport">Aéroport</dt><dd>25 min</dd></div>
+      </dl>
+    </section>
+
+    <section class="programs surface-paper" id="programs" data-header-theme="light">
+      <header class="section-heading reveal-block">
+        <h2 data-fr="Une collection résidentielle pensée à l'échelle du paysage." data-en="A residential collection shaped at the scale of the landscape.">Une collection résidentielle pensée à l'échelle du paysage.</h2>
+        <p data-fr="TAO Passot est le premier programme disponible. TAO Lake 1 et TAO Lake 2 prolongent la vision et restent en développement." data-en="TAO Passot is the first available program. TAO Lake 1 and TAO Lake 2 extend the vision and remain in development.">TAO Passot est le premier programme disponible. TAO Lake 1 et TAO Lake 2 prolongent la vision et restent en développement.</p>
       </header>
 
-      <div class="gallery-grid">
-        <figure class="gallery-primary reveal-media">
-          <img src="https://media.vrbo.com/lodging/113000000/112960000/112953200/112953194/3d5e5e26.jpg?impolicy=resizecrop&ra=fill&rh=950&rw=1500" alt="Villa contemporaine ouverte sur sa piscine et le paysage" loading="lazy" decoding="async" />
-        </figure>
-        <figure class="gallery-secondary reveal-media">
-          <img src="https://madagascar-hotels-online.com/wp-content/uploads/2019/09/piscine-villa-privee-home-the-residence-nosy-be.jpeg" alt="Piscine tropicale entourée de végétation" loading="lazy" decoding="async" />
-        </figure>
-        <p class="gallery-quote">L'architecture encadre le paysage sans chercher à prendre sa place.</p>
+      <div class="program-layout">
+        <div class="program-media reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-1.jpeg" alt="TAO Passot, programme résidentiel à Nosy Be" />
+          <div class="program-media-caption"><span>TAO PASSOT</span><span data-fr="Disponible" data-en="Available">Disponible</span></div>
+        </div>
+        <div class="program-index" role="list">
+          <article class="program-row is-primary" role="listitem">
+            <div><strong>TAO PASSOT</strong><span>Residence</span></div>
+            <p data-fr="Villas avec vues panoramiques, terrasses privées et piscines infinity." data-en="Villas with panoramic views, private terraces and infinity pools.">Villas avec vues panoramiques, terrasses privées et piscines infinity.</p>
+            <span class="program-status" data-fr="Disponible" data-en="Available">Disponible</span>
+          </article>
+          <article class="program-row" role="listitem">
+            <div><strong>TAO LAKE 1</strong><span>Residence</span></div>
+            <p data-fr="Résidence au bord du lac avec architecture bioclimatique." data-en="Lakeside residence with bioclimatic architecture.">Résidence au bord du lac avec architecture bioclimatique.</p>
+            <span class="program-status" data-fr="En développement" data-en="In development">En développement</span>
+          </article>
+          <article class="program-row" role="listitem">
+            <div><strong>TAO LAKE 2</strong><span>Residence</span></div>
+            <p data-fr="Collection premium de villas avec relation directe au lac." data-en="Premium villa collection with a direct relationship to the lake.">Collection premium de villas avec relation directe au lac.</p>
+            <span class="program-status" data-fr="En développement" data-en="In development">En développement</span>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="scene residence-scene" id="residences" data-scene data-header-theme="dark">
-      <div class="scene-media parallax-media" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1768737676967-5d340e2f86cc?auto=format&fit=crop&fm=jpg&q=78&w=2200" alt="" />
-      </div>
-      <div class="scene-shade scene-shade-soft" aria-hidden="true"></div>
+    <section class="villas surface-ink" id="villas" data-header-theme="dark">
+      <header class="villas-heading reveal-block">
+        <h2 data-fr="Des moments, pas une fiche produit." data-en="Moments, not a product sheet.">Des moments, pas une fiche produit.</h2>
+        <p data-fr="Piscine, nature, coucher de soleil et horizon deviennent les repères d'une journée à TAO Passot." data-en="Pool, nature, sunset and horizon become the markers of a day at TAO Passot.">Piscine, nature, coucher de soleil et horizon deviennent les repères d'une journée à TAO Passot.</p>
+      </header>
 
-      <div class="scene-title-wrap">
-        <h2 class="scene-title"><span>Les résidences</span></h2>
+      <div class="villa-gallery">
+        <figure class="villa-frame villa-frame-wide reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2013.jpg" alt="Piscine infinity d'une villa TAO Passot" loading="lazy" />
+          <figcaption><strong>60 m²</strong><span data-fr="Piscine infinity" data-en="Infinity pool">Piscine infinity</span></figcaption>
+        </figure>
+        <figure class="villa-frame villa-frame-tall reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2014.jpg" alt="Villa TAO Passot au contact de la nature" loading="lazy" />
+          <figcaption><strong data-fr="Nature" data-en="Nature">Nature</strong><span data-fr="Au plus près des lacs" data-en="Close to the lakes">Au plus près des lacs</span></figcaption>
+        </figure>
+        <figure class="villa-frame villa-frame-tall reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2016.jpg" alt="Coucher de soleil panoramique vu depuis TAO Passot" loading="lazy" />
+          <figcaption><strong>100%</strong><span data-fr="Vue coucher de soleil" data-en="Panoramic sunset view">Vue coucher de soleil</span></figcaption>
+        </figure>
+        <figure class="villa-frame villa-frame-wide reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-3.jpeg" alt="Vue mer depuis une villa TAO Passot" loading="lazy" />
+          <figcaption><strong>180°</strong><span data-fr="Vue mer" data-en="Sea view">Vue mer</span></figcaption>
+        </figure>
       </div>
-      <div class="scene-corner scene-corner-left">
-        <p>Intimité<br />Harmony<br />Prestige</p>
-      </div>
-      <a class="scene-action" href="#contact">Recevoir la brochure</a>
     </section>
 
-    <section class="contact" id="contact" data-scene data-header-theme="light">
-      <div class="contact-copy">
-        <h2>Voir le projet dans son ensemble.</h2>
-        <p>Plans, typologies et présentation de TAO Passot réunis dans la brochure commerciale.</p>
-        <a class="contact-link" href="mailto:contact@domenea.com?subject=Brochure%20TAO%20Passot">Demander la brochure</a>
+    <section class="concept surface-paper" id="concept" data-header-theme="light">
+      <div class="concept-sticky">
+        <div class="concept-copy reveal-block">
+          <h2 data-fr="Se fondre dans la nature sans disparaître." data-en="Blend into nature without disappearing.">Se fondre dans la nature sans disparaître.</h2>
+          <p data-fr="Le concept TAO privilégie les lignes simples, la ventilation naturelle, l'ombre et une relation continue entre intérieur et extérieur." data-en="The TAO concept favors simple lines, natural ventilation, shade and a continuous relationship between inside and outside.">Le concept TAO privilégie les lignes simples, la ventilation naturelle, l'ombre et une relation continue entre intérieur et extérieur.</p>
+        </div>
+        <dl class="concept-principles reveal-block">
+          <div><dt data-fr="Architecture" data-en="Architecture">Architecture</dt><dd data-fr="Bioclimatique" data-en="Bioclimatic">Bioclimatique</dd></div>
+          <div><dt data-fr="Relation" data-en="Relationship">Relation</dt><dd data-fr="Dedans et dehors continus" data-en="Inside and outside as one">Dedans et dehors continus</dd></div>
+          <div><dt data-fr="Matière" data-en="Material">Matière</dt><dd data-fr="Naturelle et minérale" data-en="Natural and mineral">Naturelle et minérale</dd></div>
+          <div><dt data-fr="Lumière" data-en="Light">Lumière</dt><dd data-fr="Filtrée et progressive" data-en="Filtered and progressive">Filtrée et progressive</dd></div>
+        </dl>
       </div>
-      <div class="contact-image reveal-media">
-        <img src="https://images.unsplash.com/photo-1750271329214-a7dbce880e85?auto=format&fit=crop&fm=jpg&q=76&w=1800" alt="Villa tropicale au coucher du soleil" loading="lazy" decoding="async" />
+      <div class="concept-image reveal-media">
+        <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-2.jpg" alt="Architecture TAO Passot intégrée au paysage tropical" loading="lazy" />
       </div>
-      <footer class="contact-footer">
-        <strong>DOMENEA</strong>
-        <p>TAO Passot, Nosy Be</p>
-        <a href="mailto:contact@domenea.com">contact@domenea.com</a>
-      </footer>
+    </section>
+
+    <section class="lifestyle surface-paper" id="lifestyle" data-header-theme="light">
+      <header class="section-heading reveal-block">
+        <h2 data-fr="Vivre pleinement. Vivre vert." data-en="Live fully. Live green.">Vivre pleinement. Vivre vert.</h2>
+        <p data-fr="Le bien-être n'est pas un équipement ajouté. Il vient de l'espace, de la lumière, des matériaux et d'un quotidien plus proche de la nature." data-en="Well-being is not an added amenity. It comes from space, light, materials and a daily life closer to nature.">Le bien-être n'est pas un équipement ajouté. Il vient de l'espace, de la lumière, des matériaux et d'un quotidien plus proche de la nature.</p>
+      </header>
+
+      <div class="lifestyle-grid">
+        <figure class="lifestyle-main reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2012.jpg" alt="Paysage vert autour de TAO Residence" loading="lazy" />
+        </figure>
+        <div class="lifestyle-note reveal-block">
+          <h3 data-fr="Sérénité durable" data-en="Sustainable serenity">Sérénité durable</h3>
+          <p data-fr="Les espaces privés et partagés favorisent le calme, le mouvement et la connexion au paysage." data-en="Private and shared spaces support calm, movement and a stronger connection to the landscape.">Les espaces privés et partagés favorisent le calme, le mouvement et la connexion au paysage.</p>
+        </div>
+        <figure class="lifestyle-secondary reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%202.jpg" alt="Plage de Nosy Be et océan Indien" loading="lazy" />
+        </figure>
+        <div class="lifestyle-note lifestyle-note-bottom reveal-block">
+          <h3 data-fr="Élégance côtière" data-en="Coastal elegance">Élégance côtière</h3>
+          <p data-fr="Les lignes épurées et les matériaux naturels prolongent l'atmosphère de Nosy Be jusque dans la maison." data-en="Clean lines and natural materials carry the atmosphere of Nosy Be into the home.">Les lignes épurées et les matériaux naturels prolongent l'atmosphère de Nosy Be jusque dans la maison.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="location surface-ink" data-header-theme="dark">
+      <div class="location-map reveal-media">
+        <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/carte_sans_fond.png" alt="Carte de Nosy Be et de la situation de TAO Passot" loading="lazy" />
+      </div>
+      <div class="location-copy reveal-block">
+        <h2 data-fr="Mont Passot, au coeur de Nosy Be." data-en="Mont Passot, at the heart of Nosy Be.">Mont Passot, au coeur de Nosy Be.</h2>
+        <p data-fr="Une position entre relief, lacs et côte, assez proche des services pour rester simple, assez en retrait pour préserver la sensation d'île." data-en="A position between high ground, lakes and coast, close enough to services for ease, secluded enough to preserve the island feeling.">Une position entre relief, lacs et côte, assez proche des services pour rester simple, assez en retrait pour préserver la sensation d'île.</p>
+      </div>
+    </section>
+
+    <section class="investment surface-paper" id="investment" data-header-theme="light">
+      <div class="investment-title reveal-block">
+        <h2 data-fr="Un investissement pensé pour durer." data-en="An investment designed to last.">Un investissement pensé pour durer.</h2>
+      </div>
+      <div class="investment-body">
+        <p class="investment-lead reveal-block" data-fr="TAO présente la propriété comme un actif générationnel, ancré dans la qualité de construction, l'architecture et la durabilité." data-en="TAO presents property as a generational asset rooted in build quality, architecture and durability.">TAO présente la propriété comme un actif générationnel, ancré dans la qualité de construction, l'architecture et la durabilité.</p>
+        <div class="investment-principles reveal-block">
+          <article><h3 data-fr="Qualité" data-en="Quality">Qualité</h3><p data-fr="Des choix architecturaux et matériels pensés pour un usage durable." data-en="Architectural and material choices designed for long-term use.">Des choix architecturaux et matériels pensés pour un usage durable.</p></article>
+          <article><h3 data-fr="Rareté" data-en="Rarity">Rareté</h3><p data-fr="Un site de Mont Passot où le relief et les vues structurent le projet." data-en="A Mont Passot site where terrain and views shape the project.">Un site de Mont Passot où le relief et les vues structurent le projet.</p></article>
+          <article><h3 data-fr="Transmission" data-en="Legacy">Transmission</h3><p data-fr="Une résidence conçue comme un lieu de vie avant d'être présentée comme un produit." data-en="A residence designed as a place to live before being presented as a product.">Une résidence conçue comme un lieu de vie avant d'être présentée comme un produit.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact surface-paper" id="contact" data-header-theme="light">
+      <div class="contact-intro reveal-block">
+        <h2 data-fr="Voir TAO Passot dans son ensemble." data-en="See TAO Passot as a whole.">Voir TAO Passot dans son ensemble.</h2>
+        <p data-fr="Recevez la présentation commerciale, les typologies et les informations disponibles sur le programme." data-en="Receive the sales presentation, villa typologies and available information about the program.">Recevez la présentation commerciale, les typologies et les informations disponibles sur le programme.</p>
+      </div>
+
+      <div class="contact-layout">
+        <form class="brochure-form reveal-block" data-brochure-form>
+          <div class="field-row">
+            <label><span data-fr="Nom" data-en="Name">Nom</span><input type="text" name="name" autocomplete="name" required /></label>
+            <label><span>Email</span><input type="email" name="email" autocomplete="email" required /></label>
+          </div>
+          <div class="field-row">
+            <label><span data-fr="Téléphone" data-en="Phone">Téléphone</span><input type="tel" name="phone" autocomplete="tel" /></label>
+            <label><span data-fr="Programme" data-en="Program">Programme</span><select name="program"><option>TAO Passot</option><option>TAO Lake 1</option><option>TAO Lake 2</option></select></label>
+          </div>
+          <label><span data-fr="Votre demande" data-en="Your request">Votre demande</span><textarea name="message" rows="4" data-fr-placeholder="Je souhaite recevoir la brochure et échanger sur le programme." data-en-placeholder="I would like to receive the brochure and discuss the program." placeholder="Je souhaite recevoir la brochure et échanger sur le programme."></textarea></label>
+          <div class="form-footer">
+            <p data-fr="L'envoi ouvre votre logiciel de messagerie avec la demande préremplie." data-en="Submitting opens your email application with the request pre-filled.">L'envoi ouvre votre logiciel de messagerie avec la demande préremplie.</p>
+            <button type="submit" class="submit-link" data-fr="Préparer la demande" data-en="Prepare request">Préparer la demande</button>
+          </div>
+        </form>
+
+        <div class="contact-image reveal-media">
+          <img src="https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2016.jpg" alt="TAO Passot au coucher du soleil" loading="lazy" />
+        </div>
+      </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand"><strong>DOMENEA</strong><span>TAO Passot</span></div>
+    <div class="footer-contact">
+      <a href="mailto:info@domenea.com">info@domenea.com</a>
+      <a href="tel:+33771140291">+33 7 71 14 02 91</a>
+      <span>Mont Passot, Nosy Be, Madagascar</span>
+    </div>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/taopassot" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="https://www.facebook.com/taopassot" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <a href="https://wa.me/33771140291" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    </div>
+    <div class="footer-bottom"><span>© 2026 DOMENEA - TAO Passot</span><span data-fr="Tous droits réservés" data-en="All rights reserved">Tous droits réservés</span></div>
+  </footer>
 </body>
 </html>
