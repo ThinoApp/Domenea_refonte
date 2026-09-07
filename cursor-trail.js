@@ -19,6 +19,7 @@
     zIndex: '135',
     opacity: '0',
     transition: 'opacity 180ms ease-out',
+    mixBlendMode: 'difference',
     contain: 'strict'
   });
   document.body.appendChild(canvas);
@@ -29,10 +30,12 @@
     return;
   }
 
+  // A warm mineral source color combined with CSS difference blending keeps
+  // the strands legible over both dark cinematic media and pale paper surfaces.
   const strands = [
-    { spring: 0.235, friction: 0.705, width: 1.15, alpha: 0.42, offset: -2.3, warmth: '167, 132, 91' },
-    { spring: 0.205, friction: 0.735, width: 0.9, alpha: 0.3, offset: 0, warmth: '184, 151, 108' },
-    { spring: 0.178, friction: 0.765, width: 0.7, alpha: 0.22, offset: 2.6, warmth: '140, 111, 76' }
+    { spring: 0.235, friction: 0.705, width: 1.15, alpha: 0.52, offset: -2.3, warmth: '231, 209, 173' },
+    { spring: 0.205, friction: 0.735, width: 0.9, alpha: 0.39, offset: 0, warmth: '244, 231, 205' },
+    { spring: 0.178, friction: 0.765, width: 0.7, alpha: 0.3, offset: 2.6, warmth: '205, 179, 139' }
   ];
 
   const pointCount = 18;
