@@ -3,14 +3,26 @@
   const params = new URLSearchParams(window.location.search);
   if (params.get('debug360') !== '1') return;
 
+  document.documentElement.dataset.qa360 = 'loaded';
+
   const attemptOpen = () => {
     const trigger = document.querySelector('[data-domenea-360]');
-    if (!trigger) return false;
+    if (!trigger) {
+      document.documentElement.dataset.qa360 = 'waiting-trigger';
+      return false;
+    }
+
+    document.documentElement.dataset.qa360 = 'clicking';
     trigger.click();
+    requestAnimationFrame(() => {
+      const viewer = document.querySelector('[data-domenea360-viewer]');
+      document.documentElement.dataset.qa360 = viewer?.classList.contains('is-open') ? 'opened' : 'click-did-not-open';
+    });
     return true;
   };
 
   const start = () => {
+    document.documentElement.dataset.qa360 = 'starting';
     if (attemptOpen()) return;
     const observer = new MutationObserver(() => {
       if (attemptOpen()) observer.disconnect();
@@ -19,8 +31,5 @@
     setTimeout(() => observer.disconnect(), 12000);
   };
 
-  // The normal site has a ceremonial entry sequence. For QA, wait until that
-  // sequence has completed so its body-lock / focus logic cannot immediately
-  // close or mask the 360 dialog.
   setTimeout(start, 4300);
 })();
