@@ -42,6 +42,7 @@ jobs:
           if [ -f pano2vr-output.zip ]; then
             mkdir -p _site/pano2vr
             unzip -q pano2vr-output.zip -d _site/pano2vr
+            python3 scripts/patch_pano2vr_autorotate.py _site/pano2vr
           fi
 
       - name: Upload static site
