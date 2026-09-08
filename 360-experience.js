@@ -2,14 +2,14 @@
   'use strict';
 
   const residenceHero = document.querySelector('.residences-hero');
-  if (!residenceHero || document.querySelector('[data-domenea-360]')) return;
+  if (!residenceHero || document.querySelector('[data-domenea360]')) return;
 
   const isEnglish = () => document.documentElement.lang === 'en';
   const t = (fr, en) => isEnglish() ? en : fr;
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const wrap = value => ((value + 180) % 360 + 360) % 360 - 180;
   const baseUrl = new URL('.', document.currentScript?.src || window.location.href);
-  const panoramaUrl = new URL('assets/tao-passot-360-clean.jpg?v=1', baseUrl).href;
+  const panoramaUrl = new URL('assets/tao-passot-360-clean.jpg?v=3', baseUrl).href;
 
   const style = document.createElement('style');
   style.dataset.domenea360Styles = '';
@@ -23,8 +23,8 @@
     .domenea-360-entry small{color:rgba(244,244,239,.68);font-size:.56rem;letter-spacing:.1em}
     .domenea-360-entry:focus-visible,.domenea-360-control:focus-visible,.domenea-360-close:focus-visible,.domenea-360-hotspot:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 
-    .domenea-360-viewer{position:fixed;inset:0;z-index:220;display:grid;grid-template-rows:auto minmax(0,1fr) auto;color:#f4f4ef;background:#101711;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s cubic-bezier(.16,1,.3,1),visibility .42s step-end}
-    .domenea-360-viewer.is-open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .42s cubic-bezier(.16,1,.3,1),visibility 0s step-start}
+    .domenea-360-viewer{position:fixed;inset:0;z-index:220;display:grid;grid-template-rows:auto minmax(0,1fr) auto;color:#f4f4ef;background:#101711;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s cubic-bezier(.16,1,.3,1),visibility .35s step-end}
+    .domenea-360-viewer.is-open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .35s cubic-bezier(.16,1,.3,1),visibility 0s step-start}
     body.is-360-open{overflow:hidden!important}
     body.is-360-open [data-domenea-cursor]{opacity:0!important}
 
@@ -39,13 +39,13 @@
     .domenea-360-stage.is-dragging{cursor:grabbing}
     .domenea-360-viewport{position:absolute;inset:0;overflow:hidden;background:#101711}
     .domenea-360-track{position:absolute;left:0;top:0;display:flex;will-change:transform;transform-origin:center center}
-    .domenea-360-pane{position:relative;flex:0 0 auto;overflow:hidden;background-color:#101711;background-repeat:no-repeat;background-position:center center;background-size:100% 100%}
-    .domenea-360-pane::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,12,8,.04),transparent 24%,transparent 72%,rgba(5,12,8,.08))}
+    .domenea-360-pane{position:relative;flex:0 0 auto;overflow:hidden;background-color:#101711;background-repeat:no-repeat;background-position:center;background-size:100% 100%}
+    .domenea-360-pane::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,12,8,.05),transparent 24%,transparent 72%,rgba(5,12,8,.08))}
 
-    .domenea-360-guide{position:absolute;z-index:5;left:50%;top:50%;transform:translate(-50%,-50%);width:6rem;height:6rem;display:grid;place-items:center;border:1px solid rgba(244,244,239,.34);border-radius:50%;color:#f4f4ef;background:rgba(15,23,17,.12);backdrop-filter:blur(4px);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;pointer-events:none;transition:opacity .4s ease}
+    .domenea-360-guide{position:absolute;z-index:5;left:50%;top:50%;transform:translate(-50%,-50%);width:6rem;height:6rem;display:grid;place-items:center;border:1px solid rgba(244,244,239,.34);border-radius:50%;color:#f4f4ef;background:rgba(15,23,17,.12);backdrop-filter:blur(4px);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;pointer-events:none;transition:opacity .35s ease}
     .domenea-360-stage.has-interacted .domenea-360-guide{opacity:0}
 
-    .domenea-360-hotspot{position:absolute;z-index:4;width:1rem;height:1rem;margin:-.5rem 0 0 -.5rem;padding:0;border:1px solid #f4f4ef;border-radius:50%;background:rgba(244,244,239,.22);box-shadow:0 0 0 .55rem rgba(244,244,239,.08);color:#172119;cursor:pointer}
+    .domenea-360-hotspot{position:absolute;z-index:4;width:1rem;height:1rem;margin:-.5rem 0 0 -.5rem;padding:0;border:1px solid #f4f4ef;border-radius:50%;background:rgba(244,244,239,.22);box-shadow:0 0 0 .55rem rgba(244,244,239,.08);cursor:pointer}
     .domenea-360-hotspot span{position:absolute;left:50%;bottom:calc(100% + 1rem);width:max-content;max-width:min(17rem,72vw);padding:.72rem .82rem;color:#172119;background:#e9e8df;font-size:.7rem;line-height:1.45;text-align:left;opacity:0;visibility:hidden;transform:translate(-50%,.3rem);transition:opacity .18s ease,transform .18s ease,visibility .18s step-end;pointer-events:none}
     .domenea-360-hotspot:hover span,.domenea-360-hotspot:focus-visible span,.domenea-360-hotspot.is-active span{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .18s ease,transform .18s ease,visibility 0s step-start}
 
@@ -53,7 +53,7 @@
     .domenea-360-loading[hidden],.domenea-360-error[hidden]{opacity:0;visibility:hidden;pointer-events:none}
     .domenea-360-loading-inner{display:grid;gap:1rem;justify-items:center;max-width:34rem}
     .domenea-360-loading-line{width:min(16rem,52vw);height:1px;background:rgba(244,244,239,.18);overflow:hidden}
-    .domenea-360-loading-line::after{content:'';display:block;width:42%;height:100%;background:#f4f4ef;animation:domenea360Load 1.2s cubic-bezier(.16,1,.3,1) infinite alternate}
+    .domenea-360-loading-line::after{content:'';display:block;width:42%;height:100%;background:#f4f4ef;animation:domenea360Load 1.15s cubic-bezier(.16,1,.3,1) infinite alternate}
     @keyframes domenea360Load{from{transform:translateX(-105%)}to{transform:translateX(250%)}}
     .domenea-360-loading p,.domenea-360-error p{margin:0;color:rgba(244,244,239,.7);font-size:.83rem;line-height:1.55}
     .domenea-360-error button{margin-top:1rem;color:#f4f4ef;background:transparent;border:0;border-bottom:1px solid rgba(244,244,239,.5);padding:.3rem 0;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;font-size:.64rem}
@@ -127,7 +127,6 @@
   let lastX = 0;
   let lastY = 0;
   let raf = 0;
-  let resizeObserver = null;
 
   const hotspots = [
     { x:52, y:64, fr:'Piscine à débordement — le cœur de la vie extérieure.', en:'Infinity pool — the heart of outdoor living.' },
@@ -136,34 +135,25 @@
   ];
 
   const scheduleRender = () => { if (!raf) raf = requestAnimationFrame(render); };
-
-  const hideStatus = () => {
-    loading.hidden = true;
-    error.hidden = true;
-  };
-
-  const showError = message => {
-    loading.hidden = true;
-    errorCopy.textContent = message;
-    error.hidden = false;
-  };
+  const hideStatus = () => { loading.hidden = true; error.hidden = true; };
+  const showError = message => { loading.hidden = true; errorCopy.textContent = message; error.hidden = false; };
 
   const validatePanorama = () => new Promise((resolve, reject) => {
-    const img = new Image();
-    img.decoding = 'async';
+    const image = new Image();
+    image.decoding = 'async';
     const timeout = setTimeout(() => reject(new Error('timeout')), 10000);
-    img.onload = () => {
+    image.onload = () => {
       clearTimeout(timeout);
-      const ratio = img.naturalWidth / Math.max(1, img.naturalHeight);
-      if (img.naturalWidth < 400 || img.naturalHeight < 200 || Math.abs(ratio - 2) > .08) {
-        reject(new Error(`invalid dimensions ${img.naturalWidth}x${img.naturalHeight}`));
+      const ratio = image.naturalWidth / Math.max(1, image.naturalHeight);
+      if (image.naturalWidth < 64 || image.naturalHeight < 32 || Math.abs(ratio - 2) > .12) {
+        reject(new Error(`invalid panorama ${image.naturalWidth}x${image.naturalHeight}`));
         return;
       }
-      console.info('[DOMENEA 360] panorama ready', img.naturalWidth, img.naturalHeight, panoramaUrl);
-      resolve(img);
+      console.info('[DOMENEA 360] panorama ready', image.naturalWidth, image.naturalHeight);
+      resolve();
     };
-    img.onerror = () => { clearTimeout(timeout); reject(new Error('image load failed')); };
-    img.src = panoramaUrl;
+    image.onerror = () => { clearTimeout(timeout); reject(new Error('image load failed')); };
+    image.src = panoramaUrl;
   });
 
   const buildTrack = () => {
@@ -212,24 +202,16 @@
       await validatePanorama();
       buildTrack();
     } catch (err) {
-      console.error('[DOMENEA 360] panorama validation failed', err);
-      showError(t(
-        'Le panorama 360° n’a pas pu être validé. Rechargez la page puis réessayez.',
-        'The 360° panorama could not be validated. Reload the page and try again.'
-      ));
+      console.error('[DOMENEA 360]', err);
+      showError(t('Le panorama 360° n’a pas pu être chargé.','The 360° panorama could not be loaded.'));
     }
   };
 
   function resize() {
     if (!track || !state.ready) return;
-    const width = Math.max(1, stage.clientWidth);
     const height = Math.max(1, stage.clientHeight);
-
-    // Always oversize vertically. This guarantees there can never be an exposed
-    // grey strip, even while the user pitches or zooms the panorama.
-    state.paneHeight = height * 1.18;
+    state.paneHeight = height * 1.22;
     state.paneWidth = state.paneHeight * 2;
-
     track.style.width = `${state.paneWidth * 3}px`;
     track.style.height = `${state.paneHeight}px`;
     [...track.children].forEach(pane => {
@@ -242,17 +224,15 @@
   function render() {
     raf = 0;
     if (!track || !state.ready) return;
-
     const stageW = stage.clientWidth;
     const stageH = stage.clientHeight;
     const scaledH = state.paneHeight * state.zoom;
-    const maxVertical = Math.max(0, (scaledH - stageH) * .46);
+    const maxVertical = Math.max(0, (scaledH - stageH) * .45);
     const pitchOffset = clamp(state.pitch / 28, -1, 1) * maxVertical;
     const panPx = state.yaw / 360 * state.paneWidth;
-    const baseX = stageW / 2 - state.paneWidth * 1.5 + panPx;
-    const baseY = stageH / 2 - state.paneHeight / 2 + pitchOffset;
-
-    track.style.transform = `translate3d(${baseX}px,${baseY}px,0) scale(${state.zoom})`;
+    const x = stageW / 2 - state.paneWidth * 1.5 + panPx;
+    const y = stageH / 2 - state.paneHeight / 2 + pitchOffset;
+    track.style.transform = `translate3d(${x}px,${y}px,0) scale(${state.zoom})`;
   }
 
   const openViewer = () => {
@@ -341,6 +321,5 @@
     }
   });
 
-  resizeObserver = new ResizeObserver(resize);
-  resizeObserver.observe(stage);
+  new ResizeObserver(resize).observe(stage);
 })();
