@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 SPEED = "0.18"
 DELAY = "2.5"
 RETURN_TO_HORIZON = "0.04"
-CACHE_TAG = "autorotate-20260908"
+CACHE_TAG = "pano-hd-20260908-v2"
 
 
 def patch_xml(xml_path: Path) -> int:
