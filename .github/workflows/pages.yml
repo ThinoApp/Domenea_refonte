@@ -29,10 +29,25 @@ jobs:
         with:
           enablement: true
 
+      - name: Build static site
+        shell: bash
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git' \
+            --exclude '_site' \
+            --exclude 'pano2vr-output.zip' \
+            ./ _site/
+
+          if [ -f pano2vr-output.zip ]; then
+            mkdir -p _site/pano2vr
+            unzip -q pano2vr-output.zip -d _site/pano2vr
+          fi
+
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: "_site"
 
       - name: Deploy to GitHub Pages
         id: deployment
