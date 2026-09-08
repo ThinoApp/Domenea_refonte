@@ -20,7 +20,6 @@
       await loadClassicScript('perspective-redesign.js');
       window.DOMENEA_COPY?.decoratePerspective();
       await loadClassicScript('360-experience.js?v=2');
-      await loadClassicScript('360-qa.js');
       await loadClassicScript('cursor-trail.js');
     } catch (error) {
       console.error('[DOMENEA]', error);
