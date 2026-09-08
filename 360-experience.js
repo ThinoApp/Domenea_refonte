@@ -6,8 +6,8 @@
 
   const currentScript = document.currentScript;
   const baseUrl = new URL('.', currentScript?.src || window.location.href);
-  const panoIndexUrl = new URL('pano2vr/index.html?v=1', baseUrl);
-  const panoProbeUrl = new URL('pano2vr/pano.xml?v=1', baseUrl);
+  const panoIndexUrl = new URL('pano2vr/index.html?v=hd-20260908-2', baseUrl);
+  const panoProbeUrl = new URL('pano2vr/pano.xml?v=hd-20260908-2', baseUrl);
   const fallbackImageUrl = new URL('assets/tao-passot-360-clean.jpg?v=3', baseUrl);
   const isEnglish = () => document.documentElement.lang === 'en';
   const t = (fr, en) => isEnglish() ? en : fr;
