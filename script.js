@@ -20,6 +20,7 @@
       await loadClassicScript('perspective-redesign.js');
       window.DOMENEA_COPY?.decoratePerspective();
       await loadClassicScript('360-experience.js?v=hd-20260908-2');
+      await loadClassicScript('scroll-portal.js?v=1');
 
       const params = new URLSearchParams(window.location.search);
       if (params.get('debug360') === '1') {
