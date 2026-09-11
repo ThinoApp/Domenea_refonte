@@ -16,11 +16,11 @@
   const boot = async () => {
     try {
       await loadClassicScript('copy-rewrite.js');
-      await loadClassicScript('script-core.js');
+      await loadClassicScript('script-core.js?v=immersion-3');
       await loadClassicScript('perspective-redesign.js');
       window.DOMENEA_COPY?.decoratePerspective();
-      await loadClassicScript('360-experience.js?v=hd-20260908-2');
-      await loadClassicScript('scroll-portal.js?v=2');
+      await loadClassicScript('360-experience.js?v=immersion-3');
+      await loadClassicScript('scroll-portal.js?v=3');
 
       const params = new URLSearchParams(window.location.search);
       if (params.get('debug360') === '1') {
@@ -28,6 +28,7 @@
       }
 
       await loadClassicScript('cursor-trail.js');
+      await loadClassicScript('architectural-thread.js?v=1');
     } catch (error) {
       console.error('[DOMENEA]', error);
     }

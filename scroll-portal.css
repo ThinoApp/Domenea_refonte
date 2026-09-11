@@ -1,0 +1,82 @@
+/* TAO Passot: one continuous camera journey, with an ordinary gallery fallback. */
+.scroll-portal { position: relative; background: #15211e; color: #f4f4ef; isolation: isolate; }
+.scroll-portal-stage { position: relative; overflow: hidden; }
+.scroll-portal-stage::after { content: ''; position: absolute; z-index: 3; inset: 0 0 auto; height: 12rem; background: linear-gradient(#091c2666, transparent); pointer-events: none; }
+body:not(.menu-open) .site-header[data-portal-active="true"] { color: #f4f4ef; mix-blend-mode: normal; }
+.scroll-portal-scene { position: relative; min-height: 80svh; overflow: hidden; background: #15211e; }
+.scroll-portal-scene img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.scroll-portal-shade { position: absolute; inset: 0; background: linear-gradient(180deg, #0b151a55, transparent 38%, #0a191cf2); }
+.scroll-portal-caption { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(6rem, 13vh, 9rem); pointer-events: none; }
+.scroll-portal-caption small, .scroll-portal-final small { display: block; font-size: .65rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; }
+.scroll-portal-caption h2 { margin: .7rem 0 .8rem; max-width: 12ch; font-size: clamp(3.4rem, 7.4vw, 8.8rem); font-weight: 400; line-height: .95; letter-spacing: -.065em; text-wrap: balance; }
+.scroll-portal-caption p { margin: 0; font-size: clamp(.8rem, 1vw, .95rem); color: #f4f4efcc; }
+.scroll-portal-top, .scroll-portal-bottom { position: absolute; z-index: 5; left: var(--pad); right: var(--pad); display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.scroll-portal-top { top: clamp(6rem, 12svh, 8rem); }
+.scroll-portal-kicker, .scroll-portal-skip { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
+.scroll-portal-kicker { color: #f4f4efbb; }
+.scroll-portal-skip { display: flex; gap: 1.25rem; align-items: center; text-decoration: none; padding: .65rem 0; border-bottom: 1px solid #f4f4ef66; transition: border-color .25s; }
+.scroll-portal-skip:hover { border-color: #f4f4ef; }
+.scroll-portal-bottom { bottom: max(1.75rem, env(safe-area-inset-bottom)); }
+.scroll-portal-guide { display: flex; align-items: center; gap: .85rem; font-size: .55rem; letter-spacing: .14em; color: #f4f4efbb; }
+.scroll-portal-guide > span:first-child { font-size: 1.25rem; }
+.scroll-portal-chapters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; width: min(44vw, 38rem); }
+.scroll-portal-chapters button { padding: .75rem 0; color: #f4f4ef9c; background: none; border: 0; text-align: left; cursor: pointer; font: inherit; transition: color .25s; }
+.scroll-portal-chapters button:hover, .scroll-portal-chapters button[aria-current] { color: #f4f4ef; }
+.scroll-portal-track { display: block; height: 1px; background: #f4f4ef40; margin-bottom: .8rem; overflow: hidden; }
+.scroll-portal-track i { display: block; height: 100%; background: #f4f4ef; transform: scaleX(0); transform-origin: left; }
+.scroll-portal-chapter-label { display: flex; gap: .6rem; font-size: .6rem; }
+.scroll-portal-chapter-label b { font-weight: 400; font-variant-numeric: tabular-nums; }
+.scroll-portal-counter { font-size: .65rem; font-variant-numeric: tabular-nums; letter-spacing: .12em; color: #f4f4ef88; }
+.scroll-portal-counter > span { color: #f4f4ef; }
+.scroll-portal-live-caption, .scroll-portal-next, .scroll-portal-bottom { display: none; }
+.scroll-portal-next { position: absolute; z-index: 4; top: 29%; left: 50%; transform: translateX(-50%); gap: .75rem; font-size: .56rem; letter-spacing: .14em; text-transform: uppercase; pointer-events: none; }
+.scroll-portal-next > span:first-child { color: #f4f4ef99; }
+.scroll-portal-final { position: relative; min-height: 85svh; display: grid; place-items: center; padding: 8rem var(--pad); text-align: center; background: #12221ee0; }
+.scroll-portal-final-inner { display: grid; justify-items: center; gap: 1.4rem; max-width: 60rem; }
+.scroll-portal-final small { color: #f4f4efaa; }
+.scroll-portal-final h2 { margin: 0; font-size: clamp(3.8rem, 8vw, 9rem); font-weight: 400; line-height: .98; letter-spacing: -.06em; text-wrap: balance; }
+.scroll-portal-final p { max-width: 35ch; margin: 0; color: #f4f4efbf; font-size: .95rem; line-height: 1.6; }
+.scroll-portal-cta { display: inline-flex; align-items: center; gap: 1.25rem; margin-top: .5rem; padding: .5rem 0; color: inherit; background: none; border: 0; font: inherit; font-size: .72rem; cursor: pointer; }
+.scroll-portal-orbit { display: grid; place-items: center; width: 4.5rem; aspect-ratio: 1; border: 1px solid #f4f4ef88; border-radius: 50%; font-size: .8rem; transition: transform .35s, background .35s, color .35s; }
+.scroll-portal-cta:hover .scroll-portal-orbit { transform: rotate(-12deg); background: #f4f4ef; color: #15211e; }
+.scroll-portal button:focus-visible, .scroll-portal a:focus-visible { outline: 2px solid #f4f4ef; outline-offset: 6px; }
+.scroll-portal button:active { transform: translateY(1px); }
+.scroll-portal[data-mode="motion"] { height: 540svh; }
+.scroll-portal[data-mode="motion"] .scroll-portal-stage { position: sticky; top: 0; height: 100svh; }
+.scroll-portal[data-mode="motion"] .scroll-portal-world { position: absolute; inset: 0; }
+.scroll-portal[data-mode="motion"] .scroll-portal-scene { position: absolute; inset: 0; min-height: 0; transform-origin: center; will-change: transform, opacity; }
+.scroll-portal[data-mode="motion"] .scroll-portal-scene img { will-change: transform; }
+.scroll-portal[data-mode="motion"] .scroll-portal-scene .scroll-portal-caption { opacity: 0; }
+.scroll-portal[data-mode="motion"] .scroll-portal-scene.is-portal::after { content: ''; position: absolute; inset: 0; border: 1px solid #f4f4ef99; pointer-events: none; }
+.scroll-portal[data-mode="motion"] .scroll-portal-live-caption { display: block; z-index: 3; }
+.scroll-portal[data-mode="motion"] .scroll-portal-bottom, .scroll-portal[data-mode="motion"] .scroll-portal-next { display: flex; }
+.scroll-portal[data-mode="motion"] .scroll-portal-final { position: absolute; z-index: 4; inset: 0; min-height: 0; background: #101e1bbf; }
+@media (max-width: 760px) {
+  .scroll-portal[data-mode="motion"] { height: 460svh; }
+  .scroll-portal-top { top: 5.5rem; gap: 1rem; }
+  .scroll-portal-kicker { max-width: 15ch; font-size: .53rem; line-height: 1.7; }
+  .scroll-portal-skip { font-size: .54rem; gap: .7rem; }
+  .scroll-portal-caption { bottom: 8rem; }
+  .scroll-portal-caption h2 { font-size: clamp(3.2rem, 12vw, 5.7rem); max-width: 11ch; }
+  .scroll-portal-caption p { max-width: 27ch; font-size: .8rem; }
+  .scroll-portal-bottom { flex-wrap: wrap; gap: .8rem; bottom: max(1.2rem, env(safe-area-inset-bottom)); }
+  .scroll-portal-chapters { width: 100%; order: 3; gap: .8rem; }
+  .scroll-portal-chapter-label { font-size: .53rem; gap: .4rem; }
+  .scroll-portal-guide { font-size: .48rem; }
+  .scroll-portal-counter { font-size: .55rem; }
+  .scroll-portal-next { top: 15.5%; font-size: .48rem; }
+  .scroll-portal-final { padding: 8rem var(--pad); }
+  .scroll-portal-final-inner { gap: 1.2rem; }
+  .scroll-portal-final h2 { font-size: clamp(3.3rem, 14vw, 5rem); }
+  .scroll-portal-final p { max-width: 29ch; font-size: .85rem; }
+  .scroll-portal-orbit { width: 3.5rem; }
+}
+@media (max-height: 580px) and (min-width: 761px) {
+  .scroll-portal-top { top: 4.8rem; }
+  .scroll-portal-caption { bottom: 6rem; }
+  .scroll-portal-caption h2 { font-size: 3.5rem; }
+  .scroll-portal-final { padding: 5rem var(--pad); }
+  .scroll-portal-final h2 { font-size: 3.5rem; }
+  .scroll-portal-final-inner { gap: .75rem; }
+  .scroll-portal-orbit { width: 3rem; }
+}

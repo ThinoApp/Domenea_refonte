@@ -509,6 +509,16 @@
   }
 
   function initMenuAndNavigation() {
+    document.addEventListener('domenea:scroll-lock', event => {
+      if (event.detail?.locked) lenis?.stop();
+      else lenis?.start();
+    });
+    document.addEventListener('domenea:scroll-to', event => {
+      const top = event.detail?.top;
+      if (!Number.isFinite(top)) return;
+      if (lenis) lenis.scrollTo(top, { duration: 1.15 });
+      else window.scrollTo({ top, behavior: reducedMotion ? 'instant' : 'smooth' });
+    });
     menuToggle?.addEventListener('click', () => setMenu(!menuOpen));
     languageButton?.addEventListener('click', () => applyLanguage(currentLanguage === 'fr' ? 'en' : 'fr'));
 

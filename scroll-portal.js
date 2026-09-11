@@ -1,103 +1,228 @@
 (() => {
   'use strict';
 
-  const gsap = window.gsap;
-  const ScrollTrigger = window.ScrollTrigger;
   const residences = document.querySelector('#residences');
-  if (!residences || !gsap || !ScrollTrigger || document.querySelector('[data-scroll-portal]')) return;
-
-  gsap.registerPlugin(ScrollTrigger);
+  if (!residences || document.querySelector('[data-scroll-portal]')) return;
 
   const scenes = [
-    { number:'01', labelFr:'Mont Passot', labelEn:'Mont Passot', titleFr:'Le paysage.', titleEn:'The landscape.', image:'https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2012.jpg', alt:'Paysage tropical de Mont Passot à Nosy Be' },
-    { number:'02', labelFr:'Villa', labelEn:'Villa', titleFr:'La villa.', titleEn:'The villa.', image:'https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-2.jpg', alt:'Villa contemporaine TAO Passot ouverte sur le paysage' },
-    { number:'03', labelFr:'Piscine', labelEn:'Pool', titleFr:'La piscine.', titleEn:'The pool.', image:'https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%2013.jpg', alt:'Piscine à débordement de TAO Passot' },
-    { number:'04', labelFr:'Séjour', labelEn:'Living room', titleFr:'Le séjour.', titleEn:'The living room.', image:'https://raw.githubusercontent.com/ThinoApp/Domenea/main/public/assets/Photo%208-3.jpeg', alt:'Séjour de TAO Passot ouvert sur la terrasse et la nature' }
+    { label: ['Horizon', 'Horizon'], title: ['Tout commence ici.', 'It all begins here.'], detail: ['L’océan pour point de départ.', 'The ocean as a starting point.'], image: 'horizon', alt: ['Banc de sable entouré par les eaux turquoise de l’océan', 'Sandbank surrounded by turquoise ocean water'] },
+    { label: ['Architecture', 'Architecture'], title: ['Changer de perspective.', 'A new perspective.'], detail: ['Des lignes ouvertes sur l’extérieur.', 'Lines that open to the outdoors.'], image: 'architecture', alt: ['Villa contemporaine éclairée au crépuscule, face à une piscine', 'Contemporary villa lit at dusk, facing a pool'] },
+    { label: ['Piscine', 'Pool'], title: ['Au fil de l’eau.', 'At the water’s edge.'], detail: ['La terrasse, la piscine, puis l’horizon.', 'The terrace, the pool, then the horizon.'], image: 'pool', alt: ['Terrasse ombragée et piscine avec vue sur la mer', 'Shaded terrace and swimming pool overlooking the sea'] },
+    { label: ['Séjour', 'Living'], title: ['Se sentir chez soi.', 'Feel at home.'], detail: ['Dedans, dehors. Tout naturellement.', 'Indoors, outdoors. Naturally.'], image: 'living', alt: ['Séjour ouvert avec mobilier en bois, suspensions tressées et plantes', 'Open living space with wooden furniture, woven pendant lights and plants'] }
   ];
-
-  const style = document.createElement('style');
-  style.dataset.scrollPortalStyles = '';
-  style.textContent = `
-    .scroll-portal{position:relative;height:440vh;background:#101711;color:#f4f4ef;isolation:isolate}
-    .scroll-portal-stage{position:sticky;top:0;height:100dvh;overflow:hidden;background:#101711}
-    .scroll-portal-scene{position:absolute;inset:0;overflow:hidden;visibility:hidden;will-change:clip-path;transform:translateZ(0)}
-    .scroll-portal-scene:first-child{visibility:visible;clip-path:inset(0)}
-    .scroll-portal-scene img{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;transform:scale(1.08);will-change:transform,filter}
-    .scroll-portal-scene:first-child img{transform:scale(1)}
-    .scroll-portal-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,12,8,.05),rgba(6,12,8,.08) 56%,rgba(6,12,8,.52));pointer-events:none}
-    .scroll-portal-meta{position:absolute;z-index:24;left:var(--pad);right:var(--pad);bottom:clamp(1.6rem,4vw,3.5rem);display:flex;align-items:end;justify-content:space-between;gap:2rem;pointer-events:none}
-    .scroll-portal-meta-copy{display:grid;gap:.35rem}
-    .scroll-portal-meta small{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,244,239,.66)}
-    .scroll-portal-meta strong{font-size:clamp(2.1rem,5vw,6rem);font-weight:500;line-height:.9;letter-spacing:-.055em}
-    .scroll-portal-count{font-size:.58rem;letter-spacing:.16em;color:rgba(244,244,239,.62)}
-    .scroll-portal-guide{position:absolute;z-index:26;top:clamp(5.4rem,9vh,7rem);left:var(--pad);display:flex;align-items:center;gap:.75rem;font-size:.56rem;letter-spacing:.17em;text-transform:uppercase;color:rgba(244,244,239,.62);pointer-events:none}
-    .scroll-portal-guide::before{content:'';width:2.8rem;height:1px;background:rgba(244,244,239,.45)}
-    .scroll-portal-outline{position:absolute;z-index:20;pointer-events:none;border:1px solid rgba(244,244,239,.72);box-shadow:0 18px 70px rgba(4,9,6,.2);will-change:top,right,bottom,left,opacity}
-    .scroll-portal-outline span{position:absolute;left:-1px;top:-1.7rem;font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,244,239,.76);white-space:nowrap}
-    .scroll-portal-final{position:absolute;z-index:40;inset:0;display:grid;place-items:center;padding:var(--pad);background:rgba(7,13,9,.28);text-align:center;opacity:0;pointer-events:none}
-    .scroll-portal-final-inner{display:grid;justify-items:center;gap:1.05rem;max-width:44rem}
-    .scroll-portal-final-mark{width:clamp(7.5rem,14vw,12rem);aspect-ratio:1;border:1px solid rgba(244,244,239,.72);border-radius:50%;display:grid;place-items:center;font-size:clamp(1.8rem,4vw,3.4rem);font-weight:500;letter-spacing:-.04em}
-    .scroll-portal-final small{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,244,239,.68)}
-    .scroll-portal-final h2{margin:0;font-size:clamp(2.5rem,6vw,6.4rem);font-weight:500;line-height:.92;letter-spacing:-.055em}
-    .scroll-portal-final p{margin:0;max-width:34ch;color:rgba(244,244,239,.72);font-size:clamp(.82rem,1.15vw,.98rem);line-height:1.55}
-    .scroll-portal-cta{pointer-events:auto;margin-top:.25rem;padding:.86rem 1.2rem;border:1px solid rgba(244,244,239,.78);background:transparent;color:#f4f4ef;font:inherit;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .25s ease,color .25s ease,transform .25s ease}
-    .scroll-portal-cta:hover,.scroll-portal-cta:focus-visible{background:#f4f4ef;color:#101711;transform:translateY(-2px)}
-    .scroll-portal-cta:focus-visible{outline:2px solid #f4f4ef;outline-offset:4px}
-    @media(max-width:760px){.scroll-portal{height:360vh}.scroll-portal-meta{bottom:max(1.35rem,env(safe-area-inset-bottom));align-items:start}.scroll-portal-meta strong{font-size:clamp(2rem,10vw,3.6rem)}.scroll-portal-count{display:none}.scroll-portal-guide{top:calc(max(4.7rem,env(safe-area-inset-top)) + .6rem)}.scroll-portal-outline span{top:-1.5rem}.scroll-portal-final h2{font-size:clamp(2.8rem,13vw,4.8rem)}}
-    @media(prefers-reduced-motion:reduce){.scroll-portal{height:auto;min-height:100dvh}.scroll-portal-stage{position:relative;min-height:100dvh}.scroll-portal-scene{display:none!important}.scroll-portal-scene:last-of-type{display:block!important;visibility:visible!important;clip-path:none!important}.scroll-portal-scene:last-of-type img{transform:none!important;filter:brightness(.68)!important}.scroll-portal-meta,.scroll-portal-guide,.scroll-portal-outline{display:none!important}.scroll-portal-final{opacity:1!important;pointer-events:auto!important}}
-  `;
-  document.head.appendChild(style);
-
+  const number = index => String(index + 1).padStart(2, '0');
+  const copy = values => `data-fr="${values[0]}" data-en="${values[1]}"`;
   const section = document.createElement('section');
+  section.id = 'immersion';
   section.className = 'scroll-portal';
   section.dataset.scrollPortal = '';
   section.dataset.headerTheme = 'dark';
-  section.setAttribute('aria-label', 'Mont Passot, villa, piscine, séjour et visite 360°');
-
-  const sceneMarkup = scenes.map((scene,index)=>`<article class="scroll-portal-scene" data-portal-scene="${index}" style="z-index:${index+1}"><img src="${scene.image}" alt="${scene.alt}" loading="${index===0?'eager':'lazy'}" decoding="async"/><div class="scroll-portal-shade" aria-hidden="true"></div><div class="scroll-portal-meta" data-portal-meta="${index}"><div class="scroll-portal-meta-copy"><small data-fr="${scene.number} — ${scene.labelFr}" data-en="${scene.number} — ${scene.labelEn}">${scene.number} — ${scene.labelFr}</small><strong data-fr="${scene.titleFr}" data-en="${scene.titleEn}">${scene.titleFr}</strong></div><span class="scroll-portal-count">${scene.number} / 04</span></div></article>`).join('');
-  const outlines = scenes.slice(1).map((scene,index)=>`<div class="scroll-portal-outline" data-portal-outline="${index+1}" style="z-index:${index+18}"><span data-fr="Vers ${scene.labelFr}" data-en="To ${scene.labelEn}">Vers ${scene.labelFr}</span></div>`).join('');
-
-  section.innerHTML = `<div class="scroll-portal-stage">${sceneMarkup}${outlines}<div class="scroll-portal-guide" data-fr="Faire défiler pour avancer" data-en="Scroll to move forward">Faire défiler pour avancer</div><div class="scroll-portal-final" data-portal-final><div class="scroll-portal-final-inner"><small>05 — TAO Passot</small><div class="scroll-portal-final-mark">360°</div><h2 data-fr="Explorez librement." data-en="Explore freely.">Explorez librement.</h2><p data-fr="Vous avez traversé Mont Passot, la villa, la piscine et le séjour. Prenez maintenant le contrôle." data-en="You have passed through Mont Passot, the villa, the pool and the living room. Now take control.">Vous avez traversé Mont Passot, la villa, la piscine et le séjour. Prenez maintenant le contrôle.</p><button class="scroll-portal-cta" type="button" data-portal-360 data-fr="Ouvrir la visite 360°" data-en="Open the 360° tour">Ouvrir la visite 360°</button></div></div></div>`;
-
+  section.dataset.mode = 'static';
+  section.innerHTML = `
+    <div class="scroll-portal-stage">
+      <div class="scroll-portal-world">
+        ${scenes.map((scene, index) => `
+          <article class="scroll-portal-scene" data-portal-scene="${index}">
+            <img src="assets/immersion/${scene.image}.webp" alt="${scene.alt[0]}" decoding="async" fetchpriority="low" />
+            <div class="scroll-portal-shade" aria-hidden="true"></div>
+            <div class="scroll-portal-caption">
+              <small>${number(index)} — <span ${copy(scene.label)}>${scene.label[0]}</span></small>
+              <h2 ${copy(scene.title)}>${scene.title[0]}</h2>
+              <p ${copy(scene.detail)}>${scene.detail[0]}</p>
+            </div>
+          </article>`).join('')}
+      </div>
+      <div class="scroll-portal-top">
+        <span class="scroll-portal-kicker" ${copy(['TAO PASSOT — UNE TRAVERSÉE', 'TAO PASSOT — A JOURNEY'])}>TAO PASSOT — UNE TRAVERSÉE</span>
+        <a href="#residences" class="scroll-portal-skip"><span ${copy(['Aller aux villas', 'Go to the villas'])}>Aller aux villas</span> <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="scroll-portal-caption scroll-portal-live-caption" aria-hidden="true">
+        <small data-portal-label></small><h2 data-portal-title></h2><p data-portal-detail></p>
+      </div>
+      <div class="scroll-portal-next" aria-hidden="true"><span ${copy(['PLUS LOIN', 'FURTHER IN'])}>PLUS LOIN</span><span data-portal-next></span><span>↓</span></div>
+      <div class="scroll-portal-final" data-portal-final>
+        <div class="scroll-portal-final-inner">
+          <small ${copy(['ET SI VOUS Y ÉTIEZ ?', 'WHAT IF YOU WERE HERE?'])}>ET SI VOUS Y ÉTIEZ ?</small>
+          <h2 ${copy(['À vous d’explorer.', 'Make it your own.'])}>À vous d’explorer.</h2>
+          <p ${copy(['Prolongez la traversée. Entrez dans la visite panoramique de TAO Passot.', 'Continue the journey. Step inside the panoramic tour of TAO Passot.'])}>Prolongez la traversée. Entrez dans la visite panoramique de TAO Passot.</p>
+          <button class="scroll-portal-cta" type="button" data-portal-360><span class="scroll-portal-orbit" aria-hidden="true">360°</span><span ${copy(['Entrer dans la visite', 'Enter the tour'])}>Entrer dans la visite</span><span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+      <div class="scroll-portal-bottom">
+        <span class="scroll-portal-guide"><span aria-hidden="true">↓</span><span ${copy(['DÉFILER POUR TRAVERSER', 'SCROLL TO EXPLORE'])}>DÉFILER POUR TRAVERSER</span></span>
+        <nav class="scroll-portal-chapters">${scenes.map((scene, index) => `<button type="button" data-portal-jump="${index}"><span class="scroll-portal-track" aria-hidden="true"><i></i></span><span class="scroll-portal-chapter-label"><b>${number(index)}</b><span ${copy(scene.label)}>${scene.label[0]}</span></span></button>`).join('')}</nav>
+        <span class="scroll-portal-counter" aria-hidden="true"><span data-portal-count>01</span> / 04</span>
+      </div>
+    </div>`;
   residences.insertAdjacentElement('beforebegin', section);
 
-  const isEnglish=()=>document.documentElement.lang==='en';
-  const applyLanguage=()=>{const lang=isEnglish()?'en':'fr';section.querySelectorAll('[data-fr][data-en]').forEach(el=>{el.textContent=el.dataset[lang];});section.setAttribute('aria-label',isEnglish()?'Mont Passot, villa, pool, living room and 360° tour':'Mont Passot, villa, piscine, séjour et visite 360°');};
+  const sceneEls = [...section.querySelectorAll('[data-portal-scene]')];
+  const images = sceneEls.map(el => el.querySelector('img'));
+  const shades = sceneEls.map(el => el.querySelector('.scroll-portal-shade'));
+  const chapters = [...section.querySelectorAll('[data-portal-jump]')];
+  const tracks = chapters.map(el => el.querySelector('i'));
+  const liveCaption = section.querySelector('.scroll-portal-live-caption');
+  const label = section.querySelector('[data-portal-label]');
+  const title = section.querySelector('[data-portal-title]');
+  const detail = section.querySelector('[data-portal-detail]');
+  const next = section.querySelector('.scroll-portal-next');
+  const nextLabel = section.querySelector('[data-portal-next]');
+  const count = section.querySelector('[data-portal-count]');
+  const final = section.querySelector('[data-portal-final]');
+  const header = document.querySelector('[data-header]');
+  let headerFrame = 0;
+  const updateHeader = () => {
+    headerFrame = 0;
+    if (!header) return;
+    const bounds = section.getBoundingClientRect();
+    const edge = header.getBoundingClientRect().bottom;
+    header.dataset.portalActive = String(bounds.top <= edge && bounds.bottom > edge);
+  };
+  const scheduleHeader = () => { if (!headerFrame) headerFrame = requestAnimationFrame(updateHeader); };
+  window.addEventListener('scroll', scheduleHeader, { passive: true });
+  window.addEventListener('resize', scheduleHeader);
+  scheduleHeader();
+  const language = () => document.documentElement.lang === 'en' ? 1 : 0;
+  const clamp = value => Math.max(0, Math.min(1, value));
+  const smooth = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
+  const CHAPTER = 1.12;
+  const TOTAL = 4.55;
+  let progress = 0;
+  let trigger;
+  let compact = false;
+  let activeIndex = -1;
+
+  function render(value) {
+    progress = value;
+    const time = value * TOTAL;
+    const index = Math.min(3, Math.floor(time / CHAPTER));
+    const phase = (time - index * CHAPTER) / CHAPTER;
+    const travel = clamp((phase - .2) / .72);
+    const startScale = compact ? .64 : .34;
+    // Perspective projection: the next full composition grows as the camera approaches.
+    const scale = startScale / (1 - travel * (1 - startScale));
+    const previewOpacity = smooth((phase - .10) / .10);
+    const finalOpacity = smooth((time - 3.62) / .5);
+    const captionIndex = index < 3 && travel > .93 ? index + 1 : index;
+    const captionOpacity = index === 3 ? 1 - finalOpacity : travel > .93 ? smooth((travel - .93) / .07) : 1 - smooth(travel / .35);
+
+    sceneEls.forEach((scene, i) => {
+      // Only the current world and its immediate successor can ever overlap.
+      const incoming = i === index + 1 && previewOpacity > 0;
+      const visible = i === index || incoming;
+      scene.style.visibility = visible ? 'visible' : 'hidden';
+      scene.style.zIndex = incoming ? '2' : '1';
+      scene.style.opacity = incoming ? String(previewOpacity) : '1';
+      scene.style.transform = incoming ? `scale(${scale})` : 'none';
+      scene.classList.toggle('is-portal', incoming && travel < 1);
+      images[i].style.transform = `scale(${i === index ? 1 + travel * .16 : 1})`;
+      shades[i].style.opacity = String(i === index ? .35 + travel * .55 : .25);
+      scene.setAttribute('aria-hidden', String(i !== captionIndex));
+      tracks[i].style.transform = `scaleX(${clamp((time - i * CHAPTER) / CHAPTER)})`;
+    });
+    liveCaption.style.opacity = String(captionOpacity);
+    liveCaption.style.transform = `translateY(${(1 - captionOpacity) * 16}px)`;
+    next.style.opacity = index < 3 ? String(previewOpacity * (1 - smooth(travel / .55))) : '0';
+    final.style.opacity = String(finalOpacity);
+    final.style.visibility = finalOpacity > 0 ? 'visible' : 'hidden';
+    final.inert = finalOpacity < .98;
+    final.setAttribute('aria-hidden', String(finalOpacity < .98));
+    if (activeIndex !== captionIndex) {
+      activeIndex = captionIndex;
+      updateCaption();
+    }
+    if (index < 3) nextLabel.textContent = scenes[index + 1].label[language()];
+    section.dataset.chapter = String(captionIndex + 1);
+  }
+
+  function updateCaption() {
+    const index = Math.max(0, activeIndex);
+    const scene = scenes[index];
+    label.textContent = `${number(index)} — ${scene.label[language()]}`;
+    title.textContent = scene.title[language()];
+    detail.textContent = scene.detail[language()];
+    count.textContent = number(index);
+    chapters.forEach((button, i) => {
+      if (i === index) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
+  }
+
+  function applyLanguage() {
+    section.querySelectorAll('[data-fr][data-en]').forEach(el => { el.textContent = el.dataset[language() ? 'en' : 'fr']; });
+    section.setAttribute('aria-label', language() ? 'A journey into the TAO Passot lifestyle' : 'Une traversée dans l’univers de TAO Passot');
+    section.querySelector('nav').setAttribute('aria-label', language() ? 'Journey chapters' : 'Étapes de la traversée');
+    images.forEach((img, i) => { img.alt = scenes[i].alt[language()]; });
+    updateCaption();
+    if (section.dataset.mode === 'motion') render(progress);
+  }
+  new MutationObserver(applyLanguage).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   applyLanguage();
-  document.querySelector('[data-language]')?.addEventListener('click',()=>requestAnimationFrame(applyLanguage));
-  section.querySelector('[data-portal-360]')?.addEventListener('click',()=>document.querySelector('[data-domenea360]')?.click());
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 
-  const sceneEls=[...section.querySelectorAll('[data-portal-scene]')];
-  const metaEls=[...section.querySelectorAll('[data-portal-meta]')];
-  const outlineEls=[...section.querySelectorAll('[data-portal-outline]')];
-  const final=section.querySelector('[data-portal-final]');
-  const header=document.querySelector('[data-header]');
-  const mobile=window.matchMedia('(max-width: 760px)').matches;
-  const insetY=mobile?29:27;
-  const insetX=mobile?15:30;
-
-  gsap.set(metaEls,{autoAlpha:0,y:14});
-  gsap.set(metaEls[0],{autoAlpha:1,y:0});
-  gsap.set(final,{autoAlpha:0,y:16});
-  sceneEls.slice(1).forEach(scene=>gsap.set(scene,{visibility:'visible',clipPath:`inset(${insetY}% ${insetX}% ${insetY}% ${insetX}% round 1px)`}));
-  outlineEls.forEach(outline=>gsap.set(outline,{top:`${insetY}%`,right:`${insetX}%`,bottom:`${insetY}%`,left:`${insetX}%`,autoAlpha:0}));
-
-  const timeline=gsap.timeline({defaults:{ease:'none'}});
-  sceneEls.slice(1).forEach((scene,offset)=>{
-    const index=offset+1;
-    const previous=sceneEls[index-1];
-    const previousImage=previous.querySelector('img');
-    const currentImage=scene.querySelector('img');
-    const outline=outlineEls[index-1];
-    const start=offset*1.15;
-    timeline.set(outline,{autoAlpha:1},start).to(metaEls[index-1],{autoAlpha:0,y:-10,duration:.18},start+.08).to(previousImage,{scale:1.09,filter:'brightness(.76)',duration:1},start).fromTo(currentImage,{scale:1.12},{scale:1,duration:1},start).to(scene,{clipPath:'inset(0% 0% 0% 0% round 0px)',duration:1},start).to(outline,{top:'0%',right:'0%',bottom:'0%',left:'0%',duration:1},start).to(outline,{autoAlpha:0,duration:.12},start+.86).to(metaEls[index],{autoAlpha:1,y:0,duration:.24},start+.72);
+  function scrollTo(top) {
+    document.dispatchEvent(new CustomEvent('domenea:scroll-to', { detail: { top } }));
+  }
+  document.querySelector('[data-immersion-entry]')?.addEventListener('click', event => {
+    event.preventDefault();
+    scrollTo(section.getBoundingClientRect().top + window.scrollY);
   });
-  const finalStart=(sceneEls.length-1)*1.15;
-  timeline.to(metaEls[metaEls.length-1],{autoAlpha:0,y:-10,duration:.2},finalStart).to(sceneEls[sceneEls.length-1].querySelector('img'),{scale:1.06,filter:'brightness(.56)',duration:.75},finalStart).to(final,{autoAlpha:1,y:0,duration:.45},finalStart+.12).set(final,{pointerEvents:'auto'},finalStart+.45);
+  chapters.forEach((button, index) => button.addEventListener('click', () => {
+    if (trigger) scrollTo(trigger.start + (index * CHAPTER / TOTAL) * (trigger.end - trigger.start));
+    else sceneEls[index].scrollIntoView({ behavior: 'auto', block: 'start' });
+  }));
+  section.querySelector('.scroll-portal-skip').addEventListener('click', event => {
+    event.preventDefault();
+    scrollTo(residences.getBoundingClientRect().top + window.scrollY);
+    residences.setAttribute('tabindex', '-1');
+    residences.focus({ preventScroll: true });
+  });
+  const tourButton = section.querySelector('[data-portal-360]');
+  tourButton.addEventListener('click', () => {
+    // Keep the actual source focused so the viewer restores focus here on close.
+    tourButton.focus({ preventScroll: true });
+    document.querySelector('[data-domenea360]')?.click();
+  });
 
-  const setHeaderDark=()=>{if(header)header.dataset.theme='dark';};
-  const setHeaderLight=()=>{if(header)header.dataset.theme='light';};
-  ScrollTrigger.create({trigger:section,start:'top top',end:'bottom bottom',animation:timeline,scrub:.8,invalidateOnRefresh:true,onEnter:setHeaderDark,onEnterBack:setHeaderDark,onLeave:setHeaderLight,onLeaveBack:setHeaderLight});
-  window.addEventListener('load',()=>ScrollTrigger.refresh(),{once:true});
+  const { gsap, ScrollTrigger } = window;
+  if (!gsap || !ScrollTrigger) {
+    if (window.location.hash === '#immersion') section.scrollIntoView({ behavior: 'instant' });
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+  const media = gsap.matchMedia();
+  media.add({ reduce: '(prefers-reduced-motion: reduce)', compact: '(max-width: 760px)', desktop: '(min-width: 761px)' }, context => {
+    if (context.conditions.reduce) return;
+    compact = context.conditions.compact;
+    section.dataset.mode = 'motion';
+    activeIndex = -1;
+    const state = { progress: 0 };
+    const animation = gsap.to(state, { progress: 1, duration: 1, ease: 'none', paused: true, onUpdate: () => render(state.progress) });
+    render(0);
+    trigger = ScrollTrigger.create({
+      id: 'domenea-immersion', trigger: section, start: 'top top', end: 'bottom bottom',
+      animation, scrub: compact ? .35 : .65, invalidateOnRefresh: true
+    });
+    return () => {
+      trigger = null;
+      section.dataset.mode = 'static';
+      sceneEls.forEach((el, i) => {
+        el.removeAttribute('style'); el.removeAttribute('aria-hidden'); el.classList.remove('is-portal');
+        images[i].removeAttribute('style'); shades[i].removeAttribute('style'); tracks[i].removeAttribute('style');
+      });
+      final.removeAttribute('style'); final.removeAttribute('aria-hidden'); final.inert = false;
+    };
+  });
+  // This module arrives after core motion setup: remeasure all downstream sections now,
+  // even when the document load event has already fired.
+  let anchorPending = window.location.hash === '#immersion';
+  const cancelAnchor = () => { anchorPending = false; };
+  ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(event => window.addEventListener(event, cancelAnchor, { once: true, passive: true }));
+  const refreshLayout = () => {
+    ScrollTrigger.refresh();
+    if (anchorPending) scrollTo(section.getBoundingClientRect().top + window.scrollY);
+    scheduleHeader();
+  };
+  requestAnimationFrame(refreshLayout);
+  if (document.readyState !== 'complete') window.addEventListener('load', refreshLayout, { once: true });
+  document.fonts?.ready.then(refreshLayout);
 })();

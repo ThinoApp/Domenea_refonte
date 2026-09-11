@@ -191,6 +191,7 @@
     viewer.classList.add('is-open');
     viewer.setAttribute('aria-hidden','false');
     document.body.classList.add('is-360-open');
+    document.dispatchEvent(new CustomEvent('domenea:scroll-lock', { detail: { locked: true } }));
     loading.hidden = false;
     closeButton.focus({ preventScroll:true });
 
@@ -204,6 +205,7 @@
     viewer.classList.remove('is-open');
     viewer.setAttribute('aria-hidden','true');
     document.body.classList.remove('is-360-open');
+    document.dispatchEvent(new CustomEvent('domenea:scroll-lock', { detail: { locked: false } }));
     stage.classList.remove('is-pano-ready');
     fallback.classList.remove('is-visible','is-dragging','has-interacted');
     dragging = false;
