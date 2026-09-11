@@ -28,7 +28,7 @@
       }
 
       await loadClassicScript('cursor-trail.js');
-      await loadClassicScript('architectural-thread.js?v=1');
+      await loadClassicScript('architectural-thread.js?v=prod-mime-1');
     } catch (error) {
       console.error('[DOMENEA]', error);
     }
