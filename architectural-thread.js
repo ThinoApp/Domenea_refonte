@@ -79,7 +79,6 @@
       const span = Math.max(height * .35, bounds.height - height);
       return [{ ...point, el, scroll: clamp(bounds.top + y + span * point.at - (point.at === 0 ? 0 : height * .08), 0, scrollEnd) }];
     }).sort((a, b) => a.scroll - b.scroll);
-    // Exact endpoints make direct anchors and history restoration deterministic.
     if (points.length) points[0].scroll = 0;
     if (renderer) {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, compact.matches ? 1.25 : 1.6));
@@ -104,8 +103,6 @@
     const pose = {};
     ['x', 'y', 'size', 'rx', 'ry', 'rz'].forEach(key => { pose[key] = lerp(a[key], b[key], t); });
     const chapter = t < .5 ? a : b;
-    // Hold the recognizable silhouette, then morph on approach to the next stop.
-    // Always reach its exact shape at the endpoint, including when scrolling back.
     const morph = smooth(clamp((progress - .48) / .52, 0, 1));
     pose.forms = formNames.map(name => (name === a.form ? 1 - morph : 0) + (name === b.form ? morph : 0));
     host.dataset.form = morph < .5 ? a.form : b.form;
@@ -115,7 +112,6 @@
       captionNodes = [...chapter.el.querySelectorAll('h1, h2, h3, p, a, button, input, select')];
     }
     if (compact.matches) {
-      // Keep the same 3D object above the reading area on narrow screens.
       pose.x = .83;
       pose.y = .20 + Math.sin(y / Math.max(1, height) * .4) * .025;
       pose.size = chapter.section === '#immersion' ? 92 : 125;
@@ -126,7 +122,6 @@
       pose.forms = formNames.map(name => name === 'arch' ? 1 : 0);
       host.dataset.form = 'arch';
     }
-    // Bound the entire canvas beneath the header, including after orientation changes.
     pose.size = Math.min(pose.size, height * .48, width * (compact.matches ? .36 : .3));
     pose.x = clamp(pose.x * width, pose.size * .4 + 12, width - pose.size * .4 - 12);
     pose.y = clamp(pose.y * height, 74 + pose.size * .36, height - pose.size * .4 - 20);
@@ -134,8 +129,6 @@
   }
 
   function contentOpacity(pose) {
-    // The visible arch occupies the central 65% of the canvas. Let text remain
-    // legible when an existing reveal crosses its route, without intercepting input.
     const radius = pose.size * .28;
     const box = { left: pose.x - radius, right: pose.x + radius, top: pose.y - radius, bottom: pose.y + radius };
     const collision = captionNodes.some(node => {
@@ -202,7 +195,7 @@
     try {
       const [THREE, { createArchitecturalForms }] = await Promise.all([
         import(new URL('assets/vendor/three/three.module.min.js', moduleBase)),
-        import(new URL('architectural-forms.mjs', moduleBase))
+        import(new URL('architectural-forms.js?v=1', moduleBase))
       ]);
       if (disposed) return;
       renderer = new THREE.WebGLRenderer({ canvas: host.querySelector('canvas'), alpha: true, antialias: true, powerPreference: 'low-power' });
@@ -218,7 +211,6 @@
       geometry = forms.geometry;
       formNames = forms.names;
 
-      // Deterministic, very fine mineral grain. No texture download or HDR map.
       const pixels = new Uint8Array(128 * 128 * 4);
       let seed = 73;
       for (let i = 0; i < pixels.length; i += 4) {
