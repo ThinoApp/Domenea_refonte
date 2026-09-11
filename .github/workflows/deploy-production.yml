@@ -1,0 +1,106 @@
+name: Deploy DOMENEA production
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/deploy-production.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "domenea-production"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://domenea.com
+
+    env:
+      FTP_HOST: ${{ secrets.DOMENEA_FTP_HOST || vars.DOMENEA_FTP_HOST }}
+      FTP_USER: ${{ secrets.DOMENEA_FTP_USERNAME || vars.DOMENEA_FTP_USERNAME }}
+      FTP_PASSWORD: ${{ secrets.DOMENEA_FTP_PASSWORD }}
+      FTP_PORT: ${{ secrets.DOMENEA_FTP_PORT || vars.DOMENEA_FTP_PORT || '21' }}
+      FTP_REMOTE_DIR: /www/
+
+    steps:
+      - name: Checkout latest main
+        uses: actions/checkout@v4
+
+      - name: Validate FTP configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$FTP_HOST" || { echo "DOMENEA_FTP_HOST is missing"; exit 1; }
+          test -n "$FTP_USER" || { echo "DOMENEA_FTP_USERNAME is missing"; exit 1; }
+          test -n "$FTP_PASSWORD" || { echo "DOMENEA_FTP_PASSWORD is missing"; exit 1; }
+          test -n "$FTP_PORT" || { echo "DOMENEA_FTP_PORT is missing"; exit 1; }
+
+      - name: Build production site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '.impeccable' \
+            --exclude '_site' \
+            --exclude 'scripts' \
+            --exclude '*.md' \
+            --exclude 'pano2vr-output.zip' \
+            ./ _site/
+
+          if [ -f pano2vr-output.zip ]; then
+            mkdir -p _site/pano2vr
+            unzip -q pano2vr-output.zip -d _site/pano2vr
+            python3 scripts/patch_pano2vr_autorotate.py _site/pano2vr
+          fi
+
+          test -f _site/index.html
+          test -f _site/styles.css
+          test -f _site/script.js
+          test -f _site/pano2vr/index.html
+          test -f _site/pano2vr/pano.xml
+
+          echo "Production package ready:"
+          du -sh _site
+
+      - name: Install FTP client
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lftp
+
+      - name: Upload to domenea.com
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          lftp <<EOF
+          set cmd:fail-exit true
+          set net:max-retries 2
+          set net:timeout 30
+          set ftp:passive-mode true
+          set ftp:ssl-allow true
+          set ssl:verify-certificate true
+          open -p "$FTP_PORT" "$FTP_HOST"
+          user "$FTP_USER" "$FTP_PASSWORD"
+          cd "$FTP_REMOTE_DIR"
+          lcd _site
+          mirror --reverse --verbose --parallel=4 --no-perms --exclude-glob .DS_Store ./ ./
+          bye
+          EOF
+
+      - name: Deployment summary
+        shell: bash
+        run: |
+          echo "DOMENEA production deployed from commit $GITHUB_SHA"
+          echo "Target: https://domenea.com"
